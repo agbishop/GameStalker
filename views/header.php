@@ -136,7 +136,7 @@
     	width: 450,
     	modal: true,
 		buttons: {
-            "Login": function() {
+            "Register": function() {
             $(this).dialog("close");   	
             },
             "Cancel": function() {
@@ -409,42 +409,41 @@ ul#navi .login a      {
 					<td>
 					<input type="text" name="newusername" />
 					</td>
-					<td class="ximg" id="ux" style="display:none"><img src="public/imgs/x.png" /></td>
 				</tr>
 				<tr>
 					<td>Password: </td>
 					<td>
 					<input type="text" name="confirmpassword1"/>
 					</td>
-					<td class="ximg" id="px" style="display:none"><img src="public/imgs/x.png" /></td>
+					
 				</tr>
 				<tr>
 					<td>Confirm Password: </td>
 					<td>
 					<input type="text" name="confirmpassword2"/>
 					</td>
-					<td class="ximg" id="px" style="display:none"><img src="public/imgs/x.png" /></td>
+					
 				</tr>
 				<tr>
 					<td>Email: </td>
 					<td>
 					<input type="text" name="Email"/>
 					</td>
-					<td class="ximg" id="px" style="display:none"><img src="public/imgs/x.png" /></td>
+					
 				</tr>
 				<tr>
 					<td>PSN Username:  </td>
 					<td>
 					<input type="text" name="PSNUsername"/>
 					</td>
-					<td class="ximg" id="px" style="display:none"><img src="public/imgs/x.png" /></td>
+					
 				</tr>
 				<tr>
 					<td>Xbox Live Gamertag: </td>
 					<td>
 					<input type="text" name="XboxName"/>
 					</td>
-					<td class="ximg" id="px" style="display:none"><img src="public/imgs/x.png" /></td>
+					
 				</tr>
 				<!--<tr>
 					<td>Steam ID: </td>
