@@ -145,7 +145,7 @@
             $(this).dialog("close");   	
             },
             "Cancel": function() {
-                $(this).dialog("close");
+            $(this).dialog("close");
             }
         }
     });
@@ -155,6 +155,24 @@
         return false;
     });
     //Nick Ended Register here 
+        $('#AboutD').dialog({
+    	autoOpen: false,
+    	width: 500,
+    	modal: true,
+		buttons: {
+            "Close": function() {
+            $(this).dialog("close");   	
+            }
+        }
+    });
+    $('.about').click(function() {
+        $('#AboutD').dialog('open');
+        disableNavi();
+        return false;
+    });
+    //Nick Added About here
+
+    //Nick Ended About here
     $('#loginD').dialog({
         autoOpen: false,
         width: 360,
@@ -510,6 +528,11 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2d2e2d', endC
 					</td>
 					
 				</tr>
+				<div id="AboutD" >
+				<p>GameStalker is an aggregated service that combines the statistics from Xbox Live, Playstation Network and Steam 
+				to allow the Gamer to compare their performance with friends across all platforms. </p>
+				<p>GameStalker will be updated with RSS Feeds and Platform News soon!</p>
+		</div>
 				<!--<tr>
 					<td>Steam ID: </td>
 					<td>
