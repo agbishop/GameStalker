@@ -23,6 +23,10 @@ class Login extends Controller {
 	{
 	$this->model->logout();
 	}
+	function add()
+	{
+	$this->model->add();
+	}
 	
 
 }

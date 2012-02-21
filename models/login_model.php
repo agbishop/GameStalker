@@ -51,5 +51,30 @@ public function usernameCheck(){
 		Session::init();
 		Session::destroy();
 	}
+	public function add(){
+		echo "HERE";
+		$username = $_POST['username'];
+		$password = Hash::create('md5', $_POST['password'], HASH_PASSWORD_KEY);
+		if($_POST['xbox'] != ""){
+		$xbox = $_POST['xbox'];
+		}
+		else{
+			$xbox = NULL;
+		}
+		if($_POST['psn'] != ""){
+			$psn = $_POST['psn'];
+		}
+		else{
+			$psn = NULL;
+		}
+		$email = $_POST['email'];
+		$sth = $this->db->prepare("INSERT INTO user(username,password,XboxId,PsnId) VALUES(:username,:password,:psn ,:xbox)");
+		$sth->execute(array(
+		':username' => $username,
+		':password' => $password,
+		':xbox' => $xbox,
+		':psn' => $psn
+		));
+	}
 	
 }

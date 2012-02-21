@@ -26,6 +26,8 @@
 									$('#Pavatar').empty();
 									var img = "<img style=\"width:100%;height:100%\" id=\"theImg\" src=\""+data.AvatarMedium+"\" />";
 									$('#Pavatar').prepend(img);
+									var imgs = '<div><img id="palt" class="trophy" src="public/imgs/trophies/platinum.png"/></div><div><img id="gold" class="trophy" src="public/imgs/trophies/gold.png"/></div><div><img id="silver" class="trophy" src="public/imgs/trophies/silver.png"/></div><div><img id="bronze" class="trophy" src="public/imgs/trophies/bronze.png"/></div>';
+									$('#trophies').empty().append(imgs);
 									$('#plat').parent().append(data.Trophies.Platinum);
 									$('#gold').parent().append(data.Trophies.Gold);
 									$('#silver').parent().append(data.Trophies.Silver);
@@ -33,13 +35,16 @@
 								}
 							});
 						}
-						function getxbox(tag){
+						function getxbox(){
 		$.ajax({
 			type:'GET',
 			url:'proxyService/xbox',
 			dataType:'json',
 			success: function(data){
-				console.log(data);
+				$('#xavatar').empty();
+				var img = "<img style=\"width:100%;height:100%\" id=\"theImg\" src=\""+data.avatar.body+"\" />";
+				$('#xavatar').prepend(img);
+				$('#score').empty().append('<p>'+data.gamerscore+'</p>')
 			}
 		});
 	}
@@ -59,6 +64,7 @@
 			}
 			function addPlats(){
 				getPSN();
+				getxbox();
 				$('#login').hide();
 				$.each($('.filter'),function(){
 					$(this).show();
@@ -126,9 +132,12 @@
 	function Regvalidate(Obj){
 		//disable reg button
 		$(":button:contains('Register')").attr("disabled","disabled").addClass("ui-state-disabled");
+		$('#pgBar').progressbar('value', 0);
 		checkUsername(Obj, true);
 		// re enables the Register Button
-       $(":button:contains('Register')").removeAttr("disabled").removeClass("ui-state-disabled");
+	}
+	function enableReg(){
+		      $(":button:contains('Register')").removeAttr("disabled").removeClass("ui-state-disabled");
 	}
 	function prgBar(){
 		if(!$('#pg').length){
@@ -143,6 +152,7 @@
 		obj.username = user.username;
 		if(user.username.length < 6){
 			$('#nux').show();
+			enableReg();
 			return false;
 		}
 		$.ajax({
@@ -157,19 +167,25 @@
 				}
 				else{
 					$('#nux').show();
+					enableReg();
 					return false;
 				}
+				validate?$('#pgBar').progressbar('value', 10):false;
 				if(validate){
 					console.log('validating .. ');
+					$('#pgBar').progressbar('value', 15);
 					if(checkPass()){
 						console.log('password good');
+						$('#pgBar').progressbar('value', 25);
 						if(checkEmail()){
 							console.log('email good');
+							$('#pgBar').progressbar('value', 40);
 							var psn = user.psn!=""?true:false;
 							var xbox = user.xbox!=""?true:false;
 							if(!psn && !xbox){
 								$('#psnx').show();
 								$('#xboxx').show();
+								enableReg();
 								return false;
 							}
 							if(psn){
@@ -181,10 +197,12 @@
 							}
 						}
 						else{
+							enableReg();
 							return false;
 						}
 					}
 					else{
+						enableReg();
 						return false;
 					}
 				}
@@ -205,28 +223,44 @@
 			success: function(data){
 				if(data == 'exists'){
 					$('#psnx').show();
+					enableReg();
 					return false;
 				}
 				if($.isEmptyObject(data)){
 					$('#psnx').show();
+					enableReg();
 					return false;
 				}
 				else{
 					$('#psnx').hide();
+					$('#pgBar').progressbar('value', 70);
 					if(xbox){
 						console.log('checking xbox');
-						checkXboxTag(tag.xbox);
+						checkXboxTag(tag);
 					}
 					else{
-						//add user
+						userAdd(tag);
 					}
 				}
 			}
 		});
 	}
+	function userAdd(user){
+		$.ajax({
+			type:'POST',
+			url:'login/add',
+			dataType: 'text',
+			data:$.param(user),
+			success: function(data){
+				console.log(data);
+				$('#pgBar').progressbar('value', 100);
+				enableReg();
+			}
+		})
+	}
 	function checkXboxTag(tag){
 		var obj = {};
-		obj.tag = tag;
+		obj.tag = tag.xbox;
 		$.ajax({
 			type:'POST',
 			url:'proxyService/xbox',
@@ -236,15 +270,23 @@
 				console.log(data);
 				if(data == 'exists'){
 					$('#xboxx').show();
+					enableReg();
 					return false;
 				}
 				if($.isEmptyObject(data)){
 					$('#xboxx').show();
+					enableReg();
+					return false;
+				}
+				if(data.error.code == 404){
+					$('#xboxx').show();
+					enableReg();
 					return false;
 				}
 				else{
+					$('#pgBar').progressbar('value', 100);
 					$('#xboxx').hide();
-					//adduser
+					userAdd(tag);
 				}
 			}
 		});
@@ -257,12 +299,14 @@
 		}
 		else{
 			$('#ex').show();
+			enableReg();
 			return false;
 		}
 	}
 	function checkPass(){
 		if($('#pass').val().length < 6){
 			$('#npx').show();
+			enableReg();
 			return false;
 		}
 		else{
@@ -270,6 +314,7 @@
 		}
 		if($('#pass').val() != $('#cpass').val() ){
 			$('#cx').show();
+			enableReg();
 			return false;
 		}
 		else{
@@ -359,13 +404,14 @@
         return false;
     });
     $('#rand').click(function(){
-    	console.log("HERE");
     	$container.isotope({sortBy: 'random'});
     	 return false;
     });
      $('#psn').click(function(){
- 	console.log("HERE");
  	$container.isotope({filter:'.psn'});
+ });
+ $('#xbox').click(function(){
+ 	$container.isotope({filter:'.xbox'});
  });
  function logoutAjax(){
  	$.ajax({
@@ -384,7 +430,7 @@
 	});
 });
 </script>
-		<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/toolbar.css"/>
+		<link rel="stylesheet" type="text/css" href="public/css/toolbar.css"/>
 		<style>
 		html,body {
   height: 98;
@@ -485,6 +531,16 @@
 				width:350px;
 				height:150px;
 			}
+			#xCard{
+				width:350px;
+				height:150px;
+			}
+			#xavatar{
+				height:100px;
+				width:100px;
+				float:left;
+				
+				}
 			#Pavatar{
 			width: 100px;
 height: 100px;
@@ -537,6 +593,10 @@ margin: 16px 0 10px 0;
 				<div><img id="bronze" class="trophy" src="public/imgs/trophies/bronze.png"/></div>
 			</div>
 		</div>
+		<div id="xCard" class='item contentBox xbox'>
+				<div id="xavatar"></div>
+				<div id ="score" style="float:left"></div>
+			</div>
 			</div>
 		<div id="loginD" >
 			<table>
