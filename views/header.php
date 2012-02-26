@@ -193,7 +193,7 @@
 							checkPsnTag(user, xbox);
 							}
 							else{
-								checkXboxTag(user.xbox);
+								checkXboxTag(user);
 							}
 						}
 						else{
@@ -211,6 +211,7 @@
 	}
 	function resetOnClose(){
 		$('#pgBar').remove();
+		//reset fields
 	}
 	function checkPsnTag(tag, xbox){
 		var obj = {};
@@ -261,11 +262,12 @@
 	function checkXboxTag(tag){
 		var obj = {};
 		obj.tag = tag.xbox;
+		console.log(tag.xbox);
 		$.ajax({
 			type:'POST',
 			url:'proxyService/xbox',
 			data: $.param(obj),
-			dataType:'json',
+			dataType:'text',
 			success: function(data){
 				console.log(data);
 				if(data == 'exists'){
@@ -274,15 +276,13 @@
 					return false;
 				}
 				if($.isEmptyObject(data)){
-					$('#xboxx').show();
+					$('#xboxx').show(); 
 					enableReg();
 					return false;
 				}
-				if(data.error.code == 404){
-					$('#xboxx').show();
-					enableReg();
-					return false;
-				}
+				/*
+				 * ADD CONDITION FOR data.error.code != undefined
+				 */
 				else{
 					$('#pgBar').progressbar('value', 100);
 					$('#xboxx').hide();

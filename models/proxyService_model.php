@@ -67,6 +67,7 @@ public function __construct()
 	{
 		Session::init();
 		if(isset($_POST['tag'])){
+			 $tag = str_replace(" ", "%20", $_POST['tag']);
 			$sth = $this->db->prepare("SELECT XboxId FROM user WHERE 
 				XboxId= :tag");
 		$sth->execute(array(
@@ -75,10 +76,11 @@ public function __construct()
 		$count = $sth->rowCount();
 		if($count != 0){
 			echo json_encode('exists');
+			unset($_POST['tag']);
 			return false;
 		}
-		$tag = str_replace(" ", "%20", $_POST['tag']);
 				echo $this->xboxQuery($tag);
+				unset($_POST['tag']);
 				return false;	
 		}
 		$sth = $this->db->prepare("SELECT XboxId FROM user WHERE 

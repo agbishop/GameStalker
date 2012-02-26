@@ -68,7 +68,7 @@ public function usernameCheck(){
 			$psn = NULL;
 		}
 		$email = $_POST['email'];
-		$sth = $this->db->prepare("INSERT INTO user(username,password,XboxId,PsnId) VALUES(:username,:password,:psn ,:xbox)");
+		$sth = $this->db->prepare("INSERT INTO user(username,password,XboxId,PsnId) VALUES(:username,:password,:xbox ,:psn)");
 		$sth->execute(array(
 		':username' => $username,
 		':password' => $password,
