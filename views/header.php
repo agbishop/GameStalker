@@ -4,14 +4,14 @@
 	<head>
 		<title>Game Stalker</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<script type="text/javascript" src="<?php echo URL ?>jquery.js"></script>
-		<script type="text/javascript" src="<?php echo URL ?>js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="<?php echo URL ?>js/jquery-ui-1.8.17.custom.min.js"></script>
-		<script type="text/javascript" src="<?php echo URL ?>public/js/navi.js"></script>
-		<script type="text/javascript" src="<?php echo URL ?>public/js/plugins/isotope/isotope.js"></script>
-		<script type="text/javascript" src="<?php echo URL ?>public/js/plugins/isotope/centeredMasonry.js"></script>
-		<link type="text/css" href="<?php echo URL ?>css/dark-hive/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
-		<link type="text/css" href="<?php echo URL ?>public/css/isotope/isotope.css" rel="stylesheet" />
+		<script type="text/javascript" src="public/js/jquery.js"></script>
+		<script type="text/javascript" src="public/js/ui/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="public/js/ui/jquery-ui-1.8.17.custom.min.js"></script>
+		<script type="text/javascript" src="public/js/navi.js"></script>
+		<script type="text/javascript" src="public/js/plugins/isotope/isotope.js"></script>
+		<script type="text/javascript" src="public/js/plugins/isotope/centeredMasonry.js"></script>
+		<link type="text/css" href="public/css/dark-hive/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+		<link type="text/css" href="public/css/isotope/isotope.css" rel="stylesheet" />
 		<script type="text/javascript">
 		// needs to seperate jquery ui and isotope, and make them work with $.noconfict(function(){})
 		

@@ -1,6 +1,6 @@
 <?php
 
-require 'config/paths.php';
+define('LIBS', 'libs/');
 require 'config/database.php';
 require 'config/constants.php';
 
