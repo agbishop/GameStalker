@@ -211,7 +211,7 @@
 	}
 	function resetOnClose(){
 		$('#pgBar').remove();
-		//reset fields
+		clearForm('#RegD');
 	}
 	function checkPsnTag(tag, xbox){
 		var obj = {};
@@ -256,6 +256,7 @@
 				console.log(data);
 				$('#pgBar').progressbar('value', 100);
 				enableReg();
+				$('#RegD').dialog('close');
 			}
 		})
 	}
@@ -369,6 +370,9 @@
         $('#RegD').dialog('open');
         return false;
     });
+    function clearForm(div){
+    	$(':input',div).not(':button',':submit',':reset', ':hidden').val('');
+    }
     //REG VALIDATION
      $('#AboutD').dialog({
     	autoOpen: false,
@@ -521,7 +525,7 @@
 				
 			}
 		/* selectors for filtering*/
-			.main .home .filter .psn .logout
+			.main .home .filter .psn .logout .ops
 			#grandad{
 				width:100%;
 				height:100%;
