@@ -34,6 +34,7 @@
 									$('#bronze').parent().append(data.Trophies.Bronze);
 								}
 							});
+							
 						}
 						function getxbox(){
 		$.ajax({
@@ -62,9 +63,16 @@
 				console.log($('#CB').width());
 				return Math.floor($('#CB').width()/3.08);
 			}
-			function addPlats(){
+			function addPlats(data){
+				if(data.PsnId != null){
 				getPSN();
+				}
+				if(data.XboxId != null){
 				getxbox();
+				}
+				if(data.SteamId != null){
+					//add getSteam()
+				}
 				$('#login').hide();
 				$.each($('.filter'),function(){
 					$(this).show();
@@ -72,7 +80,24 @@
 				$('.logout').show();
 				$container.isotope({filter:'.home'},ranLay());	
 			}
-			
+			function getPlats(){
+				$.ajax({
+					type:'GET',
+					url:'login/getPlats',
+					dataType:'json',
+					success:function(data){
+					addPlats(data);
+					$.ajax({
+					type:'GET',
+					url:'RssFeeder/getRss',
+					dataType:'json',
+					success:function(data){
+					console.log(data);
+					}
+				});
+					}
+				});
+			}
 		function validate(info){
             $.ajax({
             type:'POST',
@@ -84,7 +109,7 @@
             		$('#loginD').dialog("close");
             		$('#ux').hide();
             		$('#px').hide();
-            		addPlats();
+            		getPlats();
             	}
             	else{
             		$('#ux').show("explode",50);
@@ -400,6 +425,9 @@
             },
             "Cancel": function() {
                 $(this).dialog("close");
+            },
+            close:function(){
+            	clearForm('#loginD');
             }
         }       
     });

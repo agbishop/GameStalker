@@ -27,6 +27,9 @@ class Login extends Controller {
 	{
 	$this->model->add();
 	}
-	
+	function getPlats()
+	{
+	$this->model->getPlats();
+	}
 
 }

@@ -52,7 +52,6 @@ public function usernameCheck(){
 		Session::destroy();
 	}
 	public function add(){
-		echo "HERE";
 		$username = $_POST['username'];
 		$password = Hash::create('md5', $_POST['password'], HASH_PASSWORD_KEY);
 		if($_POST['xbox'] != ""){
@@ -75,6 +74,20 @@ public function usernameCheck(){
 		':xbox' => $xbox,
 		':psn' => $psn
 		));
+	}
+	public function getPlats(){
+		Session::init();
+		$id = Session::get('id');
+		$sth = $this->db->prepare("SELECT XboxId,PsnId,SteamId FROM user WHERE 
+				UserId=:id");
+		$sth->execute(array(
+			':id' => $id,
+		));
+		$data = $sth->fetch();
+		$count =  $sth->rowCount();
+		if ($count > 0) {
+			echo json_encode($data);
+		} 
 	}
 	
 }
