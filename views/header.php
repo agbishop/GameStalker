@@ -493,13 +493,13 @@
             },
             "Cancel": function() {
                 $(this).dialog("close");
-            },
-        close:function()
+            } 
+    },
+    close:function()
         {
         	clearForm('#loginD');
 			qTD($(":button:contains('Login')"));
-        }  
-    });
+        } });
     $('#login').click(function() {
         $('#loginD').dialog('open');
         return false;
