@@ -28,6 +28,22 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2d2e2d', endC
     width:100%;
     height:100%;
 }
+#ops{
+    background-image: url('../imgs/cog.png');
+    background-size: 25px 25px;
+    background-repeat:no-repeat;
+    background-position:center; 
+    width:100%;
+    height:100%;
+}
+#home{
+    background-image: url('../imgs/home.png');
+    background-size: 50px 30px;
+    background-repeat:no-repeat;
+    background-position:center; 
+     width:100%;
+    height:100%;
+}
 #psn{
     background-image: url('../imgs/psn.png');
     background-size: 50px 30px;
