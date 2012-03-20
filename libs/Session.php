@@ -7,7 +7,6 @@ class Session
 	{
 		@session_start();
 	}
-	
 	public static function set($key, $value)
 	{
 		//add encyption
@@ -22,8 +21,18 @@ class Session
 	
 	public static function destroy()
 	{
-		//unset($_SESSION);
+		unset($_SESSION);
 		session_destroy();
+	}
+	public static function check()
+	{
+		@session_start();
+		if(isset($_SESSION['id'])){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
 	}
 	
 }

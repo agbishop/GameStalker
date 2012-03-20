@@ -31,5 +31,8 @@ class Login extends Controller {
 	{
 	$this->model->getPlats();
 	}
+	function checkSession(){
+		$this->model->cs();
+	}
 
 }

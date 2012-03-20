@@ -89,5 +89,13 @@ public function usernameCheck(){
 			echo json_encode($data);
 		} 
 	}
+	public function cs(){
+		if(Session::check()){
+			echo json_encode(TRUE);
+		}
+		else{
+			echo json_encode(FALSE);
+		}
+	}
 	
 }

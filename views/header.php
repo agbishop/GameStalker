@@ -18,6 +18,28 @@
 		// needs to seperate jquery ui and isotope, and make them work with $.noconfict(function(){})
 		
 					$(function() {	
+						function sessionCheck(){
+							$.ajax({
+								type:'GET',
+								url:'login/checkSession',
+								dataType:'text',
+								success:function(data){
+									console.log(data);
+									if(data == 'true'){
+										getPlats();
+									}
+									else{/*
+										logoutAjax();
+										$container.isotope({filter:'.main'},ranLay());
+										$('#login').show();
+										$('.logout').hide();
+										$.each($('.filter'),function(){
+										$(this).hide();
+										});*/
+								}
+							}});
+						}
+						sessionCheck();
 						function getPSN(){
 							$.ajax({
 								type:'GET',
