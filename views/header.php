@@ -69,6 +69,8 @@
 				$.each($('.filter'),function(){
 					$(this).show();
 				});
+				$('.house').show();
+				$('.ops').show();
 				$('.logout').show();
 				$container.isotope({filter:'.home'},ranLay());	
 			}
@@ -331,7 +333,7 @@
     $('#email').change(function(){
     	checkEmail()
     });
-    //Nick Added Register here 
+    //Added Register here 
     $('#nuser').change(function(){
     	var obj = {};
     	 obj.username = $(this).val();
@@ -380,7 +382,23 @@
         $('#AboutD').dialog('open');
         return false;
     });
-    //Nick Ended Register here 
+        $('.about').click(function() {
+        $('#AboutD').dialog('open');
+        return false;
+    });
+    //Ended Register here
+     $('.ops').click(function() { //ops is settings page
+     	$('.filter').hide();
+        $('#isoParent').fadeOut(100, function(){
+        	$('#Settings').fadeIn(100);
+        });
+    });
+        $('.house').click(function() { //home to get back to menu 
+        	$('.filter').show();
+        	$('#Settings').fadeOut(100,function(){
+            $('#isoParent').fadeIn(100);
+        	});
+    });
     $('#loginD').dialog({
         autoOpen: false,
         width: 360,
@@ -423,6 +441,7 @@
  					logoutAjax();
 					$container.isotope({filter:'.main'},ranLay());
 					$('#login').show();
+					$('.ops').hide();
 					$(this).hide();
 					$.each($('.filter'),function(){
 					$(this).hide();
@@ -521,7 +540,7 @@
 				
 			}
 		/* selectors for filtering*/
-			.main .home .filter .psn .logout
+			.main .home .filter .psn .logout .ops .house
 			#grandad{
 				width:100%;
 				height:100%;
@@ -576,9 +595,13 @@ margin: 16px 0 10px 0;
 			<span id="logo" >GameStalker</span>
 			<div id="login" class="login toolEle"><p>Login</p></div>
 			<div class="login toolEle logout" style="display:none"><p>LogOut</p></div>
+			<!--  Changed here -->
+			<div class="login toolEle ops" style="width:40px;display:none;left:1px"><div id="ops"></div></div>
+			<!-- End Changed -->
 			<div class="filter toolEle" style="display:none;float:left"><div id="xbox"></div></div>
 			<div class="filter toolEle" style="display:none;float:left;left:-1px"><div id="psn"></div></div>
 			<div class="filter toolEle" style="display:none;float:left;left:-2px"><div id="steam"></div></div>
+			<div class="toolEle house" style="display:none;float:left"><div id="home"></div></div>
 		</div>
 		</div>
 			<div id="isoParent" style="padding:10px">
@@ -673,6 +696,30 @@ margin: 16px 0 10px 0;
 				<p>GameStalker is an aggregated service that combines the statistics from Xbox Live, Playstation Network and Steam 
 				to allow the Gamer to compare their performance with friends across all platforms. </p>
 				<p>GameStalker will be updated with RSS Feeds and Platform News soon!</p>
+		</div>
+		<div id="Settings" style="display:none;color:white"> 
+
+			<div style="margin:0 auto; position:relative"> <!-- Attempted to learn div didnt work as intended-->
+				<div style="position:relative;left:-1px;">Username ID's</div><div style="position:relative;left:1px"><input type="button" value="Edit"/></div>
+			  </div>
+			   <table style="margin:0 auto; position:relative">
+				<tr><td>RSS Feeds</td></tr>
+				<tr>
+					<td></td><td>PSN</td><td>Xbox</td><td>PC</td>
+				</tr>
+				<tr>
+					<td>Gamespot</td>
+					<td><input type="checkbox" name="GamespotPSN" value="GSpsn" /></td>
+					<td><input type="checkbox" name="GamespotXbox" value="GSxbox" /></td>
+					<td><input type="checkbox" name="GamespotSteam" value="GSsteam" /></td>
+				</tr>
+				<tr>
+					<td>IGN</td>
+					<td><input type="checkbox" name="IGNPSN" value="ignpsnvalue" /></td>
+					<td><input type="checkbox" name="IGNXbox" value="ignxboxvalue" /></td>
+					<td><input type="checkbox" name="IGNSteam" value="ignsteamvalue" /></td>
+				</tr>
+			</table>
 		</div>
 		</div>
 	</body>
