@@ -7,45 +7,24 @@ class User_Model extends Model
 		parent::__construct();
 	}
 
-	public function userList()
+	public function ops()
 	{
-		$sth = $this->db->prepare('SELECT id, login, role FROM users');
-		$sth->execute();
-		return $sth->fetchAll();
-	}
-	
-	public function userSingleList($id)
-	{
-		$sth = $this->db->prepare('SELECT id, login, role FROM users WHERE id = :id');
-		$sth->execute(array(':id' => $id));
-		return $sth->fetch();
-	}
-	
-	public function create($data)
-	{
-		$this->db->insert('users', array(
-			'login' => $data['login'],
-			'password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
-			'role' => $data['role']
-		));
-	}
-	
-	public function editSave($data)
-	{
-		$postData = array(
-			'login' => $data['login'],
-			'password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
-			'role' => $data['role']
-		);
-		
-		$this->db->update('users', $postData, "`id` = {$data['id']}");
-	}
-	
-	public function delete($id)
-	{
-		$sth = $this->db->prepare('DELETE FROM users WHERE id = :id');
+		Session::init();
+		$id = Session::get('id');
+		$sth = $this->db->prepare("SELECT XboxId,PsnId,SteamId FROM user WHERE UserId=:id");
 		$sth->execute(array(
 			':id' => $id
 		));
+		$gameIds= $sth->fetch();
+		$stat = $this->db->prepare("SELECT Rss FROM ops WHERE User=:id");
+		$stat->execute(array(
+			':id' => $id
+		));
+		$RssOps= $stat->fetch();
+		$RssOps = json_decode($RssOps['Rss']);
+		$data = array('Ids'=>$gameIds, 'Rss'=>$RssOps);
+		echo json_encode($data);
 	}
+ 
+	
 }

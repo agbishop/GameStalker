@@ -5,12 +5,15 @@
 		<title>Game Stalker</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<script type="text/javascript" src="public/js/jquery.js"></script>
-		<script type="text/javascript" src="public/js/ui/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="public/js/ui/jquery-ui-1.8.17.custom.min.js"></script>
+		<script type="text/javascript" src="public/js/regQtip.js"></script>
 		<script type="text/javascript" src="public/js/navi.js"></script>
 		<script type="text/javascript" src="public/js/plugins/isotope/isotope.js"></script>
 		<script type="text/javascript" src="public/js/plugins/isotope/centeredMasonry.js"></script>
+		<script type="text/javascript" src="public/js/plugins/jqueryJson/json2.js"></script>
 		<script type="text/javascript" src="public/js/plugins/qTip/jquery.qtip.min.js"></script>
+		<script type="text/javascript" src="public/js/data.js"></script>
+		<script type="text/javascript" src="public/js/loaders.js"></script>
 		<link type="text/css" href="public/css/dark-hive/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
 		<link type="text/css" href="public/css/isotope/isotope.css" rel="stylesheet" />
 		<link type="text/css" href="public/css/qTip/jquery.qtip.min.css" rel="stylesheet" />
@@ -18,6 +21,15 @@
 		// needs to seperate jquery ui and isotope, and make them work with $.noconfict(function(){})
 		
 					$(function() {	
+						$.ajax({
+								type:'GET',
+								url:'user/getOps',
+								dataType:'json',
+								success:function(data){
+									console.log(data);
+								}
+							});
+							
 						function sessionCheck(){
 							$.ajax({
 								type:'GET',
@@ -28,14 +40,14 @@
 									if(data == 'true'){
 										getPlats();
 									}
-									else{/*
+									else{
 										logoutAjax();
 										$container.isotope({filter:'.main'},ranLay());
 										$('#login').show();
 										$('.logout').hide();
 										$.each($('.filter'),function(){
 										$(this).hide();
-										});*/
+										});
 								}
 							}});
 						}
@@ -83,10 +95,6 @@
 							},
 							filter: '.main'
 						},ranLay());
-			function getthird(){
-				console.log($('#CB').width());
-				return Math.floor($('#CB').width()/3.08);
-			}
 			function addPlats(data){
 				if(data.PsnId != null){
 				getPSN();
@@ -97,7 +105,17 @@
 				if(data.SteamId != null){
 					//add getSteam()
 				}
+				$.ajax({
+				type:'GET',
+				url:'RssFeeder/getRSS',
+				dataType:'json',
+				success:function(data){
+				console.log(data);
+				}
+				});
 				$('#login').hide();
+				loadHome();
+				loadToolbar();
 				$.each($('.filter'),function(){
 					$(this).show();
 				});
@@ -112,15 +130,8 @@
 					url:'login/getPlats',
 					dataType:'json',
 					success:function(data){
-					addPlats(data);
-					$.ajax({
-					type:'GET',
-					url:'RssFeeder/getRss',
-					dataType:'json',
-					success:function(data){
 					console.log(data);
-					}
-				});
+					addPlats(data);
 					}
 				});
 			}
@@ -137,14 +148,11 @@
             		$('#px').hide();
             		getPlats();
             		qTD($(":button:contains('Login')"));
-            		addPlats();
             	}
             	else{
             		$('#ux').show("explode",50);
             		$('#px').show("explode",50);
-            		
             		qT(":button:contains('Login')", 'right center', 'left center', 'Username or Password Invalid', 'ui-tooltip-red');
-            		
             		//disable button on animation becasue of trolls
             		$(":button:contains('Login')").attr("disabled","disabled");
             		$('#loginD').stop().effect("shake", {times : 3}, 100,function(){
@@ -190,307 +198,7 @@
 	// atPos - place at 
 	// Cont - text to display
 	// StyClss - style class to use (check css)
-	function qT(Div, myPos, atPos, Cont, styClss){
-		$(Div).qtip({content: Cont, 
-			overwrite: true, // Whether or not div qTip can be overwritten
-			position: {
-               		my: myPos,  
-                   	at: atPos, 
-               	},
-           	show: {
-               		event: false,
-                   	ready: true
-               	},
-           	hide: false,
-           	style: {
-           		classes: styClss 
-           	}	
-		});	
-	}
 
-// QTIP Single Destroyer
-	// Pass in Div, remove qTip
-	function qTD(Div){
-		Div.qtip('destroy');
-	}
-	
-// QTIP Multiple Destroyer
-	// Pass in location to destroy all qTips in location
-	function qTMD(loc){
-		loc.each(function(){qTD($(this))}); // Remove all qTips on form if closed
-	}
-	
-	// Register validator under construction
-	function Regvalidate(Obj){
-		//disable reg button
-		$(":button:contains('Register')").attr("disabled","disabled").addClass("ui-state-disabled");
-		$('#pgBar').progressbar('value', 0);
-		checkUsername(Obj, true);
-		// re enables the Register Button
-	}
-	function enableReg(){
-		      $(":button:contains('Register')").removeAttr("disabled").removeClass("ui-state-disabled");
-	}
-	function prgBar(){
-		if(!$('#pg').length){
-		$('.ui-dialog-buttonpane').prepend("<div id=\"pgBar\"style=\"width:270px;float:left;top: 4px;position: relative;\"></div>");
-		$('#pgBar').progressbar({
-			value:0
-		});
-		}
-	}
-	function checkUsername(user, validate){
-		var obj ={};
-		obj.username = user.username;
-		if(user.username.length < 6){
-			// Create qTip
-			qT('#nuser', 'left center', 'right center', 'Minimum of 6 Characters', 'ui-tooltip-red');
-			enableReg();
-			return false;
-		}
-		else{
-			// Destroy qTip
-			qTD($('#nuser'));
-		}
-		$.ajax({
-			type:'POST',
-			url:'login/username',
-			data:$.param(obj),
-			dataType:'text',
-			success:function(data){
-				console.log(data);
-				if(data == 'false'){
-					// Destroy qTip
-					qTD($('#nuser'));
-				}
-				else{
-					// Create qTip
-					qT('#nuser', 'left center', 'right center', 'Username Already Exists', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				validate?$('#pgBar').progressbar('value', 10):false;
-				if(validate){
-					console.log('validating .. ');
-					$('#pgBar').progressbar('value', 15);
-					if(checkPass()){
-						console.log('password good');
-						$('#pgBar').progressbar('value', 25);
-						if(checkEmail()){
-							console.log('email good');
-							$('#pgBar').progressbar('value', 40);
-							var psn = user.psn!=""?true:false;
-							var xbox = user.xbox!=""?true:false;
-							if(!psn && !xbox){
-								// Create qTip
-								qT('#Puser', 'left center', 'right center', 'Please Provide at Least One Account', 'ui-tooltip-red');
-								qT('#Xuser', 'left center', 'right center', 'Please Provide at Least One Account', 'ui-tooltip-red');
-								enableReg();
-								return false;
-							}
-							// Destroy qTip
-							qTD($('#Puser'));
-							qTD($('#Xuser'));
-							if(psn){
-								console.log('checking psn');
-							checkPsnTag(user, xbox);
-							}
-							else{
-								checkXboxTag(user);
-							}
-						}
-						else{
-							enableReg();
-							return false;
-						}
-					}
-					else{
-						enableReg();
-						return false;
-					}
-				}
-			}
-		});
-	}
-	function resetOnClose(){
-		$('#pgBar').remove();
-		clearForm('#RegD');
-		qTMD($('#RegD :input'));
-		//reset fields
-	}
-	function checkPsnTag(tag, xbox){
-		var obj = {};
-		obj.tag = tag.psn;
-		$.ajax({
-			type:'POST',
-			url:'proxyService/psn',
-			data:$.param(obj),
-			dataType:'json',
-			success: function(data){
-				if(data == 'exists'){
-					// Create qTip
-					qT('#Puser', 'left center', 'right center', 'PSN Account Already Exists', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				if($.isEmptyObject(data)){
-					// Create qTip
-					qT('#Puser', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				else{
-					// Destroy qTip
-					qTD($('#Puser'));
-					$('#pgBar').progressbar('value', 70);
-					if(xbox){
-						console.log('checking xbox');
-						checkXboxTag(tag);
-					}
-					else{
-						userAdd(tag);
-					}
-				}
-			}
-		});
-	}
-	function userAdd(user){
-		$.ajax({
-			type:'POST',
-			url:'login/add',
-			dataType: 'text',
-			data:$.param(user),
-			success: function(data){
-				console.log(data);
-				$('#pgBar').progressbar('value', 100);
-				enableReg();
-				$('#RegD').dialog('close');
-			}
-		})
-	}
-	function checkXboxTag(tag){
-		var obj = {};
-		obj.tag = tag.xbox;
-		console.log(tag.xbox);
-		$.ajax({
-			type:'POST',
-			url:'proxyService/xbox',
-			data: $.param(obj),
-			dataType:'text',
-			success: function(data){
-				console.log(data);
-				if(data == 'exists'){
-					// Create qTip
-					qT('#Xuser', 'left center', 'right center', 'Live Account Already Exists', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				if($.isEmptyObject(data)){
-					// Create qTip
-					qT('#Xuser', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				/*
-				 * ADD CONDITION FOR data.error.code != undefined
-				 */
-				else{
-					$('#pgBar').progressbar('value', 100);
-					// Destroy qTip
-					qTD($('#Xuser'));
-					userAdd(tag);
-				}
-			}
-		});
-	}
-	function checkEmail(){
-		var email = $('#email').val();
-		if(email.indexOf('@', 1) != -1){
-			// Destroy qTip
-			qTD($('#email'));
-			return true;
-		}
-		else{
-			// Create qTip
-			qT('#email', 'left center', 'right center', 'Please Enter a Valid Email', 'ui-tooltip-red');
-			enableReg();
-			return false;
-		}
-	}
-	function checkPass(){
-		if($('#pass').val().length < 6){
-			// Create qTip
-			qT('#pass', 'left center', 'right center', 'Minimum of 6 Characters', 'ui-tooltip-red');
-			enableReg();
-			return false;
-		}
-		else{
-			// Destroy qTip
-			qTD($('#pass'));
-		}
-		if($('#pass').val() != $('#cpass').val() ){
-			// Create qTip
-			qT('#cpass', 'left center', 'right center', 'Passwords Do Not Match', 'ui-tooltip-red');
-			enableReg();
-			return false;
-		}
-		else{
-			// Destroy qTip
-			qTD($('#cpass'));
-			return true;
-		}
-		}
-		$('#pass').change(function(){
-    	checkPass();
-    });
-    $('#cpass').change(function(){
-    	checkPass();
-    });
-    $('#email').change(function(){
-    	checkEmail()
-    });
-    //Added Register here 
-    $('#nuser').change(function(){
-    	var obj = {};
-    	 obj.username = $(this).val();
-    	checkUsername(obj);
-    });
-    //pass cpass
-    $('#RegD').dialog({
-    	autoOpen: false,
-    	width: 460,
-    	modal: true,
-    	title: 'Register',
-    	resizable: false,
-		buttons: {
-            "Register": function() {
-            	var Obj = {};
-            	Obj.username = $('#nuser').val();
-            	Obj.password = $('#cpass').val();
-            	Obj.email = $('#email').val();
-            	Obj.psn = $('#Puser').val();
-            	Obj.xbox = $('#Xuser').val();
-            	Regvalidate(Obj);
-            },
-            "Cancel": function() {
-             $(this).dialog("close");
-            }
-       },
-       open:function(){
-       	prgBar();
-       },
-       close:function(){
-       	resetOnClose();
-       }
-    });
-    $('.reg').click(function() {
-        $('#RegD').dialog('open');
-        return false;
-    });
-    function clearForm(div){
-    	$(':input',div).not(':button',':submit',':reset', ':hidden').val('');
-    }
-    //REG VALIDATION
      $('#AboutD').dialog({
     	autoOpen: false,
     	width: 500,
@@ -507,17 +215,47 @@
     });
     //Ended Register here
      $('.ops').click(function() { //ops is settings page
+     	
      	$('.filter').hide();
         $('#isoParent').fadeOut(100, function(){
         	$('#Settings').fadeIn(100);
         });
+        getSetOps();
     });
-        $('.house').click(function() { //home to get back to menu 
-        	$('.filter').show();
-        	$('#Settings').fadeOut(100,function(){
-            $('#isoParent').fadeIn(100);
-        	});
-    });
+    function getSetOps(){
+    	$.ajax({
+    		type:'GET',
+    		url:'user/getOps',
+    		dataType:'json',
+    		success: function(data){
+    			console.log(data);
+    			$('#OXbox').html(data.Ids.XboxId);
+    			$('#OPsn').html(data.Ids.PsnId);
+    			$('#OSteam').html(data.Ids.SteamId);
+    			$('#EXbox').val(data.Ids.XboxId);
+    			$('#EPsn').val(data.Ids.PsnId);
+    			$('#ESteam').val(data.Ids.SteamId);
+    			if(data.Rss.pc.rss.ign)
+    				$('#ignPc').attr('checked',true).button('refresh');
+    			if(data.Rss.pc.rss.gs)
+    				$('#gsPc').attr('checked',true).button('refresh');
+    			if(data.Rss.pc.rss.up)
+    				$('#upPc').attr('checked',true).button('refresh');
+    			if(data.Rss.ps3.rss.ign)
+    				$('#ignPs3').attr('checked',true).button('refresh');
+    			if(data.Rss.ps3.rss.gs)
+    				$('#gsPs3').attr('checked',true).button('refresh');
+    			if(data.Rss.ps3.rss.up)
+    				$('#upPs3').attr('checked',true).button('refresh');
+    			if(data.Rss.xbox.rss.ign)
+    				$('#ignXbox').attr('checked',true).button('refresh');
+    			if(data.Rss.xbox.rss.gs)
+    				$('#gsXbox').attr('checked',true).button('refresh');
+    			if(data.Rss.xbox.rss.up)
+    				$('#upXbox').attr('checked',true).button('refresh');
+    		}
+    	});
+    }
     $('#loginD').dialog({
         autoOpen: false,
         width: 360,
@@ -548,42 +286,69 @@
     	$container.isotope({sortBy: 'random'});
     	 return false;
     });
-     $('#psn').click(function(){
- 	$container.isotope({filter:'.psn'});
- });
- $('#xbox').click(function(){
- 	$container.isotope({filter:'.xbox'});
- });
-
-// QTIP Header Hover - Xbox 
- $('#xbox').hover(function(){
- 		qT($(this), 'top center', 'bottom center', 'Xbox', 'ui-tooltip-dark')
- 	},function(){
- 		qTD($(this))
- 	}
- );
- 
-// QTIP Header Hover - PSN 
- $('#psn').hover(function(){
- 		qT($(this), 'top center', 'bottom center', 'PSN', 'ui-tooltip-dark')
- 	},function(){
- 		qTD($(this))
- 	}
- ); 
-
-// QTIP Header Hover - Steam 
- $('#steam').hover(function(){
- 		qT($(this), 'top center', 'bottom center', 'Steam', 'ui-tooltip-dark')
- 	},function(){
- 		qTD($(this))
- 	}
- );
-  
+    $('#idsEdit').dialog({
+        autoOpen: false,
+        width: 300,
+        modal: true,
+        resizable: false,
+        title: 'Edit Ids',
+        buttons: {
+            "Submit": function() {
+            	var obj = {};
+            	obj.xbox = $('#EXbox').val();
+            	obj.psn = $('#EPsn').val();
+            	 	checkXboxTag(obj, EditXbox);
+            },
+            "Cancel": function() {
+                $(this).dialog("close");
+            } 
+    },
+    close:function()
+        {
+        } });
+    $('.idEdit').click(function(){
+    	$('#idsEdit').dialog('open');
+    });
+ function EditXbox(data){
+ 	if(data == 'exists'){
+					qT('#EXbox', 'left center', 'right center', 'Live Account Already Exists', 'ui-tooltip-red');
+					return false;
+				}
+				if($.isEmptyObject(data)){
+					qT('#EXbox', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
+					return false;
+				}
+				/*
+				 * ADD CONDITION FOR data.error.code != undefined
+				 */
+				else{
+					qTD($('#EXbox'));
+				}
+			
+ }
+ function EditPsn(data){
+ 	if(data == 'exists'){
+					qT('#EPsn', 'left center', 'right center', 'PSN Account Already Exists', 'ui-tooltip-red');
+					return false;
+				}
+				if($.isEmptyObject(data)){
+					qT('#EPsn', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
+					return false;
+				}
+				else{
+					qTD($('#EPsn'));
+				}
+ }
  function logoutAjax(){
+    $('#Settings').fadeOut(100,function(){
+    $('#isoParent').fadeIn(100);
+     });
  	$.ajax({
  		type:'GET',
  		url: 'login/logout',
  	});
+ 	destroyHome();
+ 	destroyToolbar();
  }
  $('.logout').click(function(){
  					logoutAjax();
@@ -595,12 +360,30 @@
 					$(this).hide();
 				});
 	});
+$('#Settings').accordion({
+	autoHeight: false,
+	navigation: true
+});
+$("button.idEdit").button();
+$("button.pEdit").button();
+$("button.idEdit").bind("click", function(e) {
+    e.stopPropagation();
+    $(this).blur();
+    return false;
+});
+$("button.pEdit").bind("click", function(e) {
+    e.stopPropagation();
+    $(this).blur();
+    return false;
+});
+$('#ign').buttonset();
+$('#gs').buttonset();
+$('#up').buttonset();
 });
 </script>
 		<link rel="stylesheet" type="text/css" href="public/css/toolbar.css"/>
 		<style>
 		html,body {
-  height: 98;
   overflow-x:hidden;
 }
 @font-face{
@@ -687,6 +470,14 @@
 				text-decoration:none;
 				
 			}
+			.idEdit{
+				float:right;
+				top:-1px;
+			}
+			.pEdit{
+				float:right;
+				top:-1px;
+			}
 		/* selectors for filtering*/
 			.main .home .filter .psn .logout .ops .house
 
@@ -735,6 +526,9 @@ margin: 16px 0 10px 0;
 				margin: 1px;
 				margin-left: 4px;
 			}
+			#ids tr,td{
+			padding:2px;				
+			}
 		</style>
 	</head>
 	<body>
@@ -744,13 +538,7 @@ margin: 16px 0 10px 0;
 			<span id="logo" >GameStalker</span>
 			<div id="login" class="login toolEle"><p>Login</p></div>
 			<div class="login toolEle logout" style="display:none"><p>LogOut</p></div>
-			<!--  Changed here -->
 			<div class="login toolEle ops" style="width:40px;display:none;left:1px"><div id="ops"></div></div>
-			<!-- End Changed -->
-			<div class="filter toolEle" style="display:none;float:left"><div id="xbox"></div></div>
-			<div class="filter toolEle" style="display:none;float:left;left:-1px"><div id="psn"></div></div>
-			<div class="filter toolEle" style="display:none;float:left;left:-2px"><div id="steam"></div></div>
-			<div class="toolEle house" style="display:none;float:left"><div id="home"></div></div>
 		</div>
 		</div>
 			<div id="isoParent" style="padding:10px">
@@ -846,29 +634,83 @@ margin: 16px 0 10px 0;
 				to allow the Gamer to compare their performance with friends across all platforms. </p>
 				<p>GameStalker will be updated with RSS Feeds and Platform News soon!</p>
 		</div>
-		<div id="Settings" style="display:none;color:white"> 
-
-			<div style="margin:0 auto; position:relative"> <!-- Attempted to learn div didnt work as intended-->
-				<div style="position:relative;left:-1px;">Username ID's</div><div style="position:relative;left:1px"><input type="button" value="Edit"/></div>
-			  </div>
-			   <table style="margin:0 auto; position:relative">
-				<tr><td>RSS Feeds</td></tr>
+		<div id="Settings" style="display:none;color:white;width:500px;margin:0 auto"> 
+			<h3><a href="#">Game Ids<button class="idEdit"><div style="font-size:12px">Edit</div></button></a></h3>
+			<div>
+			<table id="ids">
 				<tr>
-					<td></td><td>PSN</td><td>Xbox</td><td>PC</td>
+					<td>Xbox Id: </td>
+					<td>
+					<p id="OXbox" ></p>
+					</td>
+					
 				</tr>
 				<tr>
-					<td>Gamespot</td>
-					<td><input type="checkbox" name="GamespotPSN" value="GSpsn" /></td>
-					<td><input type="checkbox" name="GamespotXbox" value="GSxbox" /></td>
-					<td><input type="checkbox" name="GamespotSteam" value="GSsteam" /></td>
+					<td>Psn Id: </td>
+					<td>
+					<p id="OPsn"></p>
+					</td>
 				</tr>
 				<tr>
-					<td>IGN</td>
-					<td><input type="checkbox" name="IGNPSN" value="ignpsnvalue" /></td>
-					<td><input type="checkbox" name="IGNXbox" value="ignxboxvalue" /></td>
-					<td><input type="checkbox" name="IGNSteam" value="ignsteamvalue" /></td>
+					<td>Steam Id: </td>
+					<td>
+					<p id="OSteam" type="text" name="pass"></p>
+					</td>
 				</tr>
-			</table>
+			   </table>
+			</div>  
+			<h3><a href="#">RSS Feeds</a></h3>
+			<div> 
+				<div>
+					<label for="gs">Gamespot</label>
+				<div id="gs">
+					<input type="checkbox" id="gsPs3" value="GSpsn" /><label for="gsPs3">PS3</label>
+					<input type="checkbox" id="gsXbox" value="GSxbox" /><label for="gsXbox">Xbox</label>
+					<input type="checkbox" id="gsPc" value="GSsteam" /><label for="gsPc">PC</label>
+				</div>
+				<label for="ign">IGN</label>
+				<div id="ign">
+					<input type="checkbox" id="ignPs3" value="ignpsnvalue" /><label for="ignPs3">PS3</label>
+					<input type="checkbox" id="ignXbox" value="ignxboxvalue" /><label for="ignXbox">Xbox</label>
+					<input type="checkbox" id="ignPc" value="ignsteamvalue" /><label for="ignPc">PC</label>
+				</div>
+				<label for="up">1 Up</label>
+				<div id="up">
+					<input type="checkbox" id="upPs3" value="ignpsnvalue" /><label for="upPs3">PS3</label>
+					<input type="checkbox" id="upXbox" value="ignxboxvalue" /><label for="upXbox">Xbox</label>
+					<input type="checkbox" id="upPc" value="ignsteamvalue" /><label for="upPc">PC</label>
+				</div>
+		</div>
+		</div>
+		<h3><a href="#">Profile<button class="pEdit"><div style="font-size:12px">Edit</div></button></a></h3>
+		<div>
+			<p> PROFILE SHIT GOES HERE</p>
+		</div>
+		</div>
+		<div id="idsEdit">
+			<div>
+				<table id="ids">
+				<tr>
+					<td>Xbox Id: </td>
+					<td>
+					<input id="EXbox" type="text"/>
+					</td>
+					
+				</tr>
+				<tr>
+					<td>Psn Id: </td>
+					<td>
+					<input id="EPsn" type="text"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Steam Id: </td>
+					<td>
+					<input id="ESteam" type="text"/>
+					</td>
+				</tr>
+			   </table>
+			</div>
 		</div>
 		</div>
 	</body>
