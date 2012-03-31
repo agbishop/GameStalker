@@ -74,6 +74,12 @@ public function usernameCheck(){
 		':xbox' => $xbox,
 		':psn' => $psn
 		));
+		Session::init();
+		Session::get('id');
+		$ops = $this->db->prepare("INSERT INTO ops(UserId) VALUES(:id)");
+		$sth->execute(array(
+		':id' => $id,
+		));
 	}
 	public function getPlats(){
 		Session::init();

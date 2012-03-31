@@ -185,6 +185,7 @@ function Regvalidate(Obj){
 				$('#pgBar').progressbar('value', 100);
 				enableReg();
 				$('#RegD').dialog('close');
+				
 			}
 		})
 	}
