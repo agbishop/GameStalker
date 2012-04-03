@@ -74,18 +74,16 @@ public function usernameCheck(){
 		':xbox' => $xbox,
 		':psn' => $psn
 		));
-		Session::init();
-		Session::get('id');
-		$ops = $this->db->prepare("INSERT INTO ops(UserId) VALUES(:id)");
-		$sth->execute(array(
-		':id' => $id,
+		$ops = $this->db->prepare("INSERT INTO ops(User) SELECT UserId From user WHERE UserName=:user");
+		$ops->execute(array(
+		':user' => $username,
 		));
 	}
 	public function getPlats(){
 		Session::init();
 		$id = Session::get('id');
 		$sth = $this->db->prepare("SELECT XboxId,PsnId,SteamId FROM user WHERE 
-				UserId=:id");
+		UserId=:id");
 		$sth->execute(array(
 			':id' => $id,
 		));

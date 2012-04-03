@@ -117,10 +117,10 @@ function Regvalidate(Obj){
 							qTD($('#Xuser'));
 							if(psn){
 								console.log('checking psn');
-							checkPsnTag(user, xbox, RegisterPsn);
+							checkPsnTag(user, xbox);
 							}
 							else{
-								checkXboxTag(user, RegisterXbox);
+								checkXboxTag(user);
 							}
 						}
 						else{
@@ -136,33 +136,9 @@ function Regvalidate(Obj){
 			}
 		});
 	}
-	function RegisterPsn(data){
-		if(data == 'exists'){
-					// Create qTip
-					qT('#Puser', 'left center', 'right center', 'PSN Account Already Exists', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				if($.isEmptyObject(data)){
-					// Create qTip
-					qT('#Puser', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
-					enableReg();
-					return false;
-				}
-				else{
-					// Destroy qTip
-					qTD($('#Puser'));
-					$('#pgBar').progressbar('value', 70);
-					if(xbox){
-						console.log('checking xbox');
-						checkXboxTag(tag, RegisterXbox);
-					}
-					else{
-						userAdd(tag);
-					}
-				}
-	}
-	function checkPsnTag(tag, OnSuccess){
+	
+	
+	function checkPsnTag(tag, xbox){
 		var obj = {};
 		obj.tag = tag.psn;
 		$.ajax({
@@ -171,7 +147,30 @@ function Regvalidate(Obj){
 			data:$.param(obj),
 			dataType:'json',
 			success: function(data){
-				OnSuccess(data);
+				if(data == 'exists'){
+					// Create qTip
+					qT('#Puser', 'left center', 'right center', 'PSN Account Already Exists', 'ui-tooltip-red');
+					enableReg();
+					return;
+				}
+				if($.isEmptyObject(data)){
+					// Create qTip
+					qT('#Puser', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
+					enableReg();
+					return;
+				}
+				else{
+					// Destroy qTip
+					qTD($('#Puser'));
+					$('#pgBar').progressbar('value', 70);
+					if(xbox){
+						console.log('checking xbox');
+						checkXboxTag(tag);
+					}
+					else{
+						userAdd(tag);
+					}
+				}
 			}
 		});
 	}
@@ -183,24 +182,35 @@ function Regvalidate(Obj){
 			data:$.param(user),
 			success: function(data){
 				$('#pgBar').progressbar('value', 100);
+				alert('Please login to verify account');
 				enableReg();
 				$('#RegD').dialog('close');
 				
 			}
-		})
+		});
 	}
-	function RegisterXbox(data){
-		if(data == 'exists'){
+	function checkXboxTag(tag){
+		var obj = {};
+		obj.tag = tag.xbox;
+		$.ajax({
+			type:'POST',
+			url:'proxyService/xbox',
+			data: $.param(obj),
+			dataType:'json',
+			success: function(data){
+				var res = data;
+				if(data == "exists"){
+					console.log("ERR");
 					// Create qTip
 					qT('#Xuser', 'left center', 'right center', 'Live Account Already Exists', 'ui-tooltip-red');
 					enableReg();
-					return false;
+					return;
 				}
-				if($.isEmptyObject(data)){
+				if(res == "error 404"){
 					// Create qTip
 					qT('#Xuser', 'left center', 'right center', 'Could Not Find Account', 'ui-tooltip-red');
 					enableReg();
-					return false;
+					return;
 				}
 				/*
 				 * ADD CONDITION FOR data.error.code != undefined
@@ -211,18 +221,6 @@ function Regvalidate(Obj){
 					qTD($('#Xuser'));
 					userAdd(tag);
 				}
-	}
-	function checkXboxTag(tag, OnSuccess){
-		var obj = {};
-		obj.tag = tag.xbox;
-		console.log(tag.xbox);
-		$.ajax({
-			type:'POST',
-			url:'proxyService/xbox',
-			data: $.param(obj),
-			dataType:'text',
-			success: function(data){
-				OnSuccess(data);
 			}
 		});
 	}

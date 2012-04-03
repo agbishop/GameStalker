@@ -9,7 +9,7 @@ class Bootstrap {
 		$url = explode('/', $url);
 
 		//print_r($url);
-		
+		// add redirect if the page doesn't exist
 		if (empty($url[0])) {
 			require 'controllers/index.php';
 			$controller = new Index();
@@ -22,6 +22,7 @@ class Bootstrap {
 			require $file;
 		} else {
 			$this->error();
+			return false;
 		}
 		
 		$controller = new $url[0];
@@ -33,6 +34,7 @@ class Bootstrap {
 				$controller->{$url[1]}($url[2]);
 			} else {
 				$this->error();
+				return false;
 			}
 		} else {
 			if (isset($url[1])) {
@@ -40,6 +42,7 @@ class Bootstrap {
 					$controller->{$url[1]}();
 				} else {
 					$this->error();
+					return false;
 				}
 			} else {
 				$controller->index();

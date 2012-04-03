@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2012 at 03:28 AM
+-- Generation Time: Apr 03, 2012 at 08:36 AM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -77,14 +77,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `PsnId` varchar(45) DEFAULT NULL,
   `SteamId` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`UserId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`UserId`, `UserName`, `Password`, `XboxId`, `PsnId`, `SteamId`) VALUES
-(1, 'agbishop', 'adebff52799054233f37c96cd8fe569f', NULL, 'blackbird7180', NULL);
+(1, 'agbishop', 'adebff52799054233f37c96cd8fe569f', 'blackbird7180', 'blackbird7180', NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `xbox_friends` (
 -- Constraints for table `ops`
 --
 ALTER TABLE `ops`
-  ADD CONSTRAINT `ops_ibfk_1` FOREIGN KEY (`User`) REFERENCES `user` (`UserId`);
+  ADD CONSTRAINT `ops_ibfk_1` FOREIGN KEY (`User`) REFERENCES `user` (`UserId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `psn_friends`

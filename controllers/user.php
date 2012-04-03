@@ -9,5 +9,9 @@ class User extends Controller {
 	{
 		$this->model->ops();
 	}
+	function index() {
+		$this->view->error();
+		
+	}
 	}
 

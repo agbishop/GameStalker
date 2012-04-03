@@ -10,5 +10,11 @@ class View {
 			require 'views/header.php';
 
 	}
+	public function error()
+
+	{
+			require 'views/error.php';
+
+	}
 
 }

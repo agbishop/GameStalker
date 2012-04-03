@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html >
 	<head>
 		<title>Game Stalker</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -14,6 +13,7 @@
 		<script type="text/javascript" src="public/js/plugins/qTip/jquery.qtip.min.js"></script>
 		<script type="text/javascript" src="public/js/data.js"></script>
 		<script type="text/javascript" src="public/js/loaders.js"></script>
+		<script type="text/javascript" src="public/js/plugins/cookie/jquery.cookie.js"></script>
 		<link type="text/css" href="public/css/dark-hive/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
 		<link type="text/css" href="public/css/isotope/isotope.css" rel="stylesheet" />
 		<link type="text/css" href="public/css/qTip/jquery.qtip.min.css" rel="stylesheet" />
@@ -29,7 +29,6 @@
 									console.log(data);
 								}
 							});
-							
 						function sessionCheck(){
 							$.ajax({
 								type:'GET',
@@ -72,16 +71,24 @@
 							});
 							
 						}
-						function getxbox(){
+	function getxbox(){
 		$.ajax({
 			type:'GET',
 			url:'proxyService/xbox',
 			dataType:'json',
 			success: function(data){
-				$('#xavatar').empty();
-				var img = "<img style=\"width:100%;height:100%\" id=\"theImg\" src=\""+data.avatar.body+"\" />";
-				$('#xavatar').prepend(img);
-				$('#score').empty().append('<p>'+data.gamerscore+'</p>')
+				$('#xCard').html('');
+				console.log(data);
+				var inner = "<div class=\"xAvatar\" ><img src=\"" + data.LargeAvatar + "\" /></div>";
+				var memType = 'silver';
+				if(data.gold == "true")
+					memType = 'gold'
+				inner += "<div class=\"xInfo\" style=\"color:"+memType+"\" >"+ data.Gamertag + "</div><div class=\"xGameCon\">";
+				for(var i = 0; i< 5;i++ ){
+					inner +="<div class=\"xGame\" \><img src=\""+data.Games[i].GameThumb+ "\" /></div>";
+				}
+				inner +="</div>";
+				$('#xCard').html(inner);
 			}
 		});
 	}
@@ -95,7 +102,9 @@
 							},
 							filter: '.main'
 						},ranLay());
-			function addPlats(data){
+			function addPlats(){
+				data = $.parseJSON($.cookie('GameStalker_ids'));
+				console.log(data);
 				if(data.PsnId != null){
 				getPSN();
 				}
@@ -110,7 +119,7 @@
 				url:'RssFeeder/getRSS',
 				dataType:'json',
 				success:function(data){
-				console.log(data);
+				RssBox(data);
 				}
 				});
 				$('#login').hide();
@@ -125,15 +134,20 @@
 				$container.isotope({filter:'.home'},ranLay());	
 			}
 			function getPlats(){
+				if($.cookie('GameStalker_ids') == null){
 				$.ajax({
 					type:'GET',
 					url:'login/getPlats',
 					dataType:'json',
 					success:function(data){
-					console.log(data);
-					addPlats(data);
+					$.cookie('GameStalker_ids',JSON.stringify(data),{ expires: 7, path: '/' });
+					addPlats();
 					}
 				});
+				}
+				else{
+					addPlats();
+				}
 			}
 		function validate(info){
             $.ajax({
@@ -379,6 +393,15 @@ $("button.pEdit").bind("click", function(e) {
 $('#ign').buttonset();
 $('#gs').buttonset();
 $('#up').buttonset();
+function RssBox(feed, type){
+	console.log(feed);
+}
+function MakeRssBox(feed){
+	var box = "<div class=\"contentBox item "+type+"\" style=\"width:300px;height:200px;\" >"+
+	"<div>"+"<div>"
+	+"</div>";
+	$('#isoParent').isotope('insert', $(box));
+}
 });
 </script>
 		<link rel="stylesheet" type="text/css" href="public/css/toolbar.css"/>
@@ -529,6 +552,36 @@ margin: 16px 0 10px 0;
 			#ids tr,td{
 			padding:2px;				
 			}
+			#xCard{
+				cursor:default;
+				background-image:url('public/imgs/Cardback.jpg');
+				background-position:-50px -70px;
+				overflow:hidden;
+			}
+			.xAvatar{
+				float: left;
+    			left: -30px;
+    			position: relative;
+    			top: -35px;
+			}
+			.xGame{
+				float: left;
+				 margin-top: 2px;
+				 margin-right: 8px;
+				 position: relative;
+			}
+			.xGameCon{
+    			left: 110px;
+   				position: relative;
+    			top: 8px;
+    			float:left;
+			}
+			.xInfo{
+    			left: 124px;
+    			position: relative;
+    			width: 215px;
+    			height:30px;
+			}
 		</style>
 	</head>
 	<body>
@@ -554,7 +607,8 @@ margin: 16px 0 10px 0;
 			</div>
 		</div>
 		<div id="xCard" class='item contentBox xbox'>
-				<div id="xavatar"></div>
+				<div id="xavatar">
+				</div>
 				<div id ="score" style="float:left"></div>
 			</div>
 			</div>

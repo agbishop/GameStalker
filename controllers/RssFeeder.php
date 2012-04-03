@@ -8,5 +8,8 @@ class RssFeeder extends Controller {
 	function getRSS(){
 		$this->model->getRSS();
 	}
-
+	function index() {
+		$this->view->error();
+		
+	}
 }

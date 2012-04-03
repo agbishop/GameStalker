@@ -14,6 +14,9 @@ class proxyService extends Controller {
 	{
 		$this->model->xbox();
 	}
-	
+	function index() {
+		$this->view->error();
+		
+	}
 
 }
