@@ -81,12 +81,14 @@
 				console.log(data);
 				var inner = "<div class=\"xAvatar\" ><img src=\"" + data.LargeAvatar + "\" /></div>";
 				var memType = 'silver';
-				if(data.gold == "true")
-					memType = 'gold'
+				if(data.gold == "true"){
+					memType = 'gold';
+				}
 				inner += "<div class=\"xInfo\" style=\"color:"+memType+"\" >"+ data.Gamertag + "</div><div class=\"xGameCon\">";
 				for(var i = 0; i< 5;i++ ){
 					inner +="<div class=\"xGame\" \><img src=\""+data.Games[i].GameThumb+ "\" /></div>";
 				}
+				inner += "<div class=\"xGamerScore\"> <img src=\"public/imgs/Gamerscore_icon.png\"/>" + data.GamerScore + "</div>"; 
 				inner +="</div>";
 				$('#xCard').html(inner);
 			}
@@ -554,33 +556,40 @@ margin: 16px 0 10px 0;
 			}
 			#xCard{
 				cursor:default;
-				background-image:url('public/imgs/Cardback.jpg');
+				background-image:url('public/imgs/CardBack.jpg');
 				background-position:-50px -70px;
 				overflow:hidden;
 			}
 			.xAvatar{
 				float: left;
-    			left: -30px;
-    			position: relative;
-    			top: -35px;
+			    left: -30px;
+			    position: relative;
+			    top: -60px;
 			}
 			.xGame{
 				float: left;
-				 margin-top: 2px;
-				 margin-right: 8px;
-				 position: relative;
+			    margin: 4px;
+			    position: relative;	
 			}
 			.xGameCon{
-    			left: 110px;
-   				position: relative;
-    			top: 8px;
-    			float:left;
+    			background-color: rgba(0, 0, 0, 0.7);
+    			float: left;
+			    left: -31px;
+			    position: relative;
+			    top: 31px;
 			}
 			.xInfo{
-    			left: 124px;
-    			position: relative;
-    			width: 215px;
-    			height:30px;
+    			font-size: 20px;
+			    height: 30px;
+			    left: -31px;
+			    position: relative;
+			    top: 27px;
+			    width: 300px;
+			}
+			.xGamerScore{
+				color: white;
+				padding: 3px;
+				margin: 2px;
 			}
 		</style>
 	</head>
