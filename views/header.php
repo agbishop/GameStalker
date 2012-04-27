@@ -395,19 +395,29 @@ $("button.pEdit").bind("click", function(e) {
 $('#ign').buttonset();
 $('#gs').buttonset();
 $('#up').buttonset();
-function RssBox(feed, type){
-	console.log(feed);
+function RssBox(feed){
+	MakeRssBox(feed, 'xbox')
 }
-function MakeRssBox(feed){
-	var box = "<div class=\"contentBox item "+type+"\" style=\"width:300px;height:200px;\" >"+
-	"<div>"+"<div>"
+function MakeRssBox(feed, type){
+	var box = "<div class=\"contentBox item rssImg"+type+"\" style=\"width:300px;height:150px;\" >"+
+	"<div>"+feed.xbox.rss.ign.channel.item[0].description+"<div>"
 	+"</div>";
+	
+	
+	
 	$('#isoParent').isotope('insert', $(box));
 }
+
+
 });
 </script>
 		<link rel="stylesheet" type="text/css" href="public/css/toolbar.css"/>
 		<style>
+		.rssImg img{
+			width:100px;
+			height:100px;
+			
+		}
 		html,body {
   overflow-x:hidden;
 }
@@ -505,7 +515,10 @@ function MakeRssBox(feed){
 			}
 		/* selectors for filtering*/
 			.main .home .filter .psn .logout .ops .house
-
+			img.alignnone{
+				width:100px;
+				height:100px;
+			}
 			#grandad{
 				width:100%;
 				height:100%;
