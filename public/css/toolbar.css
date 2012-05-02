@@ -1,24 +1,26 @@
 #logo{
 				font-family: Technovia;
 				font-size:30px;
-				color:orange;
+				font-weight:bold;
+				color:#C71010;
 				position:absolute;
 				left:50%;
 				margin-left:-105px;
-				top:15px;
+				top:9px;
+				text-shadow: black 0px 0px 12px;
 			}
 			.toolbar{
-				width:100%
-				/* for W3C-compliant browsers */
-background-image: linear-gradient(top, rgba(45,46,45,255) 0%, rgba(31,31,31,255) 61%, rgba(17,17,17,255) 100%);
-/* for Safari 5.03+ and Chrome 7+ */
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(45,46,45,255)), color-stop(0.6098097, rgba(31,31,31,255)), color-stop(1, rgba(17,17,17,255)));
-/* for Firefox 3.6+ */
-background-image: -moz-linear-gradient(top, rgba(45,46,45,255) 0%, rgba(31,31,31,255) 61%, rgba(17,17,17,255) 100%);
-/* for Opera 11.1+ */
-background-image: -o-linear-gradient(top, rgba(45,46,45,255) 0%, rgba(31,31,31,255) 61%, rgba(17,17,17,255) 100%);
-/* for IE */
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2d2e2d', endColorstr='#1f1f1f'endColorstr='#111111');
+				position:relative;
+				width:100%;
+background: rgb(137,137,137); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(137,137,137,1) 0%, rgba(201,201,201,1) 35%, rgba(102,102,102,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(137,137,137,1)), color-stop(35%,rgba(201,201,201,1)), color-stop(100%,rgba(102,102,102,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(137,137,137,1) 0%,rgba(201,201,201,1) 35%,rgba(102,102,102,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(137,137,137,1) 0%,rgba(201,201,201,1) 35%,rgba(102,102,102,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(137,137,137,1) 0%,rgba(201,201,201,1) 35%,rgba(102,102,102,1) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(137,137,137,1) 0%,rgba(201,201,201,1) 35%,rgba(102,102,102,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#898989', endColorstr='#666666',GradientType=0 ); /* IE6-9 */
+box-shadow: 0px 0px 11px 2px white;
 			}
 #xbox{
     background-image: url('../imgs/xbox.png');

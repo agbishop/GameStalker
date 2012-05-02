@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="public/js/jquery.js"></script>
 		<script type="text/javascript" src="public/js/ui/jquery-ui-1.8.17.custom.min.js"></script>
 		<script type="text/javascript" src="public/js/regQtip.js"></script>
-		<script type="text/javascript" src="public/js/navi.js"></script>
 		<script type="text/javascript" src="public/js/plugins/isotope/isotope.js"></script>
 		<script type="text/javascript" src="public/js/plugins/isotope/centeredMasonry.js"></script>
 		<script type="text/javascript" src="public/js/plugins/jqueryJson/json2.js"></script>
@@ -98,6 +97,7 @@
 						$container.isotope({
 							itemSelector : '.item',
 							layoutMode: 'masonry',
+							resizesContainer: true,
 							masonry:{
 								columnWidth: 60,
 								gutterWidth:10,
@@ -375,7 +375,10 @@
 					$.each($('.filter'),function(){
 					$(this).hide();
 				});
-	});
+				$.each($('.rss'),function(){
+					$(this).remove();
+				});
+	});  
 $('#Settings').accordion({
 	autoHeight: false,
 	navigation: true
@@ -413,15 +416,17 @@ function RssBox(feed){
 	src: url('public/fonts/technott.ttf');
 }
 			body {
-				background-image: url('public/imgs/black.jpg');
+				background-image: url('public/imgs/renzler.gif');
+				background-repeat:repeat;
 				 background-size: auto;
 				width: 99%;
 				height: 100%;
 			}
 			#isoParent {
 				margin:0 auto;
-				width:2000px;
-				border: 2px solid #4E4E4E;
+				width:auto;
+				left:5px;
+				/*border: 2px solid #4E4E4E;*/
 			}
 			.ui-dialog .ui-dialog-titlebar {
 				padding: 0em;
@@ -434,7 +439,7 @@ function RssBox(feed){
 				padding: 0em 0.4em;
 			}
 			.content-con{
-				border: 1px solid white;
+				border: 1px solid black;
 				border-radius:5px;
 				float:left;
 				padding: 5px;
@@ -448,9 +453,9 @@ function RssBox(feed){
 				padding:.5em;
 			}
 			.contentBox{
-				border:2px solid white;
+				border:2px solid black;
 				border-radius:10px;
-				box-shadow: 10px 10px 5px #333;
+				box-shadow: 0px 0px 11px 2px #750404;
 				background-color:#555555;
 				margin: 10px;
 			}
@@ -595,7 +600,6 @@ margin: 16px 0 10px 0;
 		</style>
 	</head>
 	<body>
-		<div id="grandad">
 		<div class="toolbar">
 		<div id="banner">
 			<span id="logo" >GameStalker</span>
@@ -775,7 +779,6 @@ margin: 16px 0 10px 0;
 				</tr>
 			   </table>
 			</div>
-		</div>
 		</div>
 	</body>
 </html>
