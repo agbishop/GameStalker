@@ -6,6 +6,9 @@ function loadToolbar(){
  $('#xbox').live("click",function(){
  	$('#isoParent').isotope({filter:'.xbox'});
  });
+ $('#xbox').live("click",function(){
+ 	$('#isoParent').isotope({filter:'.pc'});
+ });
   $('#xbox').live({
   	mouseenter:
   	function(){

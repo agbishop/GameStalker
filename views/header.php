@@ -119,7 +119,7 @@
 				$.ajax({
 				type:'GET',
 				url:'RssFeeder/getRSS',
-				dataType:'json',
+				dataType:'html',
 				success:function(data){
 				RssBox(data);
 				}
@@ -396,16 +396,8 @@ $('#ign').buttonset();
 $('#gs').buttonset();
 $('#up').buttonset();
 function RssBox(feed){
-	MakeRssBox(feed, 'xbox')
-}
-function MakeRssBox(feed, type){
-	var box = "<div class=\"contentBox item rssImg"+type+"\" style=\"width:300px;height:150px;\" >"+
-	"<div>"+feed.xbox.rss.ign.channel.item[0].description+"<div>"
-	+"</div>";
-	
-	
-	
-	$('#isoParent').isotope('insert', $(box));
+	$('#isoParent').isotope('insert', $(feed));
+	growglow();
 }
 
 
@@ -413,11 +405,6 @@ function MakeRssBox(feed, type){
 </script>
 		<link rel="stylesheet" type="text/css" href="public/css/toolbar.css"/>
 		<style>
-		.rssImg img{
-			width:100px;
-			height:100px;
-			
-		}
 		html,body {
   overflow-x:hidden;
 }
@@ -433,6 +420,7 @@ function MakeRssBox(feed, type){
 			}
 			#isoParent {
 				margin:0 auto;
+				width:2000px;
 				border: 2px solid #4E4E4E;
 			}
 			.ui-dialog .ui-dialog-titlebar {
@@ -616,7 +604,7 @@ margin: 16px 0 10px 0;
 			<div class="login toolEle ops" style="width:40px;display:none;left:1px"><div id="ops"></div></div>
 		</div>
 		</div>
-			<div id="isoParent" style="padding:10px">
+			<div id="isoParent">
 			<div  class="contentBox reg item main"><p>Register</p></div>
 			<div  class="contentBox about item main home"><p>About</p></div>
 			<div id='Pplayercard' class='psn item contentBox'>

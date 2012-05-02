@@ -1,7 +1,7 @@
 <?php
 class RssFeeder_Model extends Model
 {
-
+	public $AllRss = " ";
 public function __construct()
 	{
 		parent::__construct();
@@ -63,7 +63,9 @@ public function __construct()
 			echo "false";
 			return false;
 		}
-		echo json_encode($this->make_content($this->getFeed($size,$urls),$RssOps));
+		//print_r($this->make_content($this->getFeed($size,$urls),$RssOps));
+		$this->make_content($this->getFeed($size,$urls),$RssOps);
+		echo $this->AllRss;
 	}
 	public function getFeed($size, $url){
 		$mh = curl_multi_init();
@@ -90,41 +92,61 @@ public function __construct()
 		curl_multi_close($mh);
 		return $content;
 	}
-	protected function make_content($content, $rss){
+	public function make_content($content, $rss){
 		$i = 0;
 		$ps3 =$rss->ps3->rss;
 		$xbox = $rss->xbox->rss;
 		$pc = $rss->pc->rss;
 		if($ps3->ign == 1){
-			$ps3->ign = new SimpleXMLElement($content[$i++]);
+			//print_r(new SimpleXMLElement($content[$i++]));
+			$ps3->ign = $this->getImages($content[$i++], "psn");
 		} 
 		if($xbox->ign == 1){
-			$xbox->ign =new SimpleXMLElement($content[$i++]);
+			$xbox->ign =$this->getImages($content[$i++], "xbox");
 		} 
 		if($pc->ign == 1){
-			$pc->ign = new SimpleXMLElement($content[$i++]);
+			$pc->ign = $this->getImages($content[$i++], "pc");
 		} 
 		//
 		if($ps3->gs == 1){
-			$ps3->gs = new SimpleXMLElement($content[$i++]);
+			$ps3->gs =$this->getImages($content[$i++], "psn");
 		} 
 		if($xbox->gs== 1){
-			$xbox->gs = new SimpleXMLElement($content[$i++]);
+			$xbox->gs = $this->getImages($content[$i++], "xbox");
 		} 
 		if($pc->gs == 1){
-			$pc->gs = new SimpleXMLElement($content[$i++]);
+			$pc->gs = $this->getImages($content[$i++], "pc");
 		} 
 		//
 		if($ps3->up == 1){
-			$ps3->up = new SimpleXMLElement($content[$i++]);
+			$ps3->up = $this->getImages($content[$i++], "psn");
 		} 
 		if($xbox->up == 1){
-			$xbox->up = new SimpleXMLElement($content[$i++]);
+			$xbox->up =$this->getImages($content[$i++], "xbox");
 		} 
 		if($pc->up == 1){
-			$pc->up = new SimpleXMLElement($content[$i++]);
+			$pc->up = $this->getImages($content[$i++], "pc");
 		}
 		return $rss;
+	}
+	public function getImages($content, $type){
+	$allPics= "";
+	$stuff = new SimpleXMLElement($content);
+	$counter = 0;
+	foreach($stuff->channel->item as $itemNum => $item){
+		if($counter == 11)
+			break;
+		$result = null;
+		$tempRes = null;
+		preg_match_all('/<img[^>]+>/i',$item->description, $result); 
+		preg_match('/src=("[^"]*")/i',$result[0][0], $tempRes);
+		//$allPics[$counter]['pic'] = str_replace('"','',$tempRes[1]);
+		//$allPics[$counter]['title'] = $item->title[0];
+		//$allPics[$counter]['link'] = $item->link[0];
+		//$counter++;
+		$this->AllRss .= "<div class=\"contentBox item ".$type."\" style=\"opacity:0;background-color:black;width:300px;height:150px;overflow:hidden;background-image:url('".str_replace('"','',$tempRes[1])."');background-size:contain;background-repeat:no-repeat;background-position:center;\" > \"</div>";
+		$counter++;
+	}
 	}
 
 }
