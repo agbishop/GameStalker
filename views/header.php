@@ -40,7 +40,7 @@
 									}
 									else{
 										logoutAjax();
-										$container.isotope({filter:'.main'},ranLay());
+										$container.isotope({filter:'.main'});
 										$('#login').show();
 										$('.logout').hide();
 										$.each($('.filter'),function(){
@@ -103,7 +103,7 @@
 								gutterWidth:10,
 							},
 							filter: '.main'
-						},ranLay());
+						});
 			function addPlats(){
 				data = $.parseJSON($.cookie('GameStalker_ids'));
 				console.log(data);
@@ -133,7 +133,7 @@
 				$('.house').show();
 				$('.ops').show();
 				$('.logout').show();
-				$container.isotope({filter:'.home'},ranLay());	
+				$container.isotope({filter:'.home'});	
 			}
 			function getPlats(){
 				if($.cookie('GameStalker_ids') == null){
@@ -178,9 +178,6 @@
             }
             });
            }
-           function ranLay(){
-          $container.isotope({sortBy: 'random'});
-          }
           function growglow(){
            $.each($('.contentBox'),function(){
            var w = $(this).width();
@@ -368,7 +365,7 @@
  }
  $('.logout').click(function(){
  					logoutAjax();
-					$container.isotope({filter:'.main'},ranLay());
+					$container.isotope({filter:'.main'});
 					$('#login').show();
 					$('.ops').hide();
 					$(this).hide();
@@ -416,9 +413,10 @@ function RssBox(feed){
 	src: url('public/fonts/technott.ttf');
 }
 			body {
+				margin: 0px 8px 8px 8px;
 				background-image: url('public/imgs/renzler.gif');
 				background-repeat:repeat;
-				 background-size: auto;
+				/*background-size: auto;*/
 				width: 99%;
 				height: 100%;
 			}
@@ -600,6 +598,7 @@ margin: 16px 0 10px 0;
 		</style>
 	</head>
 	<body>
+		<div id="grandad">
 		<div class="toolbar">
 		<div id="banner">
 			<span id="logo" >GameStalker</span>
@@ -779,6 +778,7 @@ margin: 16px 0 10px 0;
 				</tr>
 			   </table>
 			</div>
+		</div>
 		</div>
 	</body>
 </html>

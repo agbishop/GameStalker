@@ -130,6 +130,7 @@ public function __construct()
 		return $rss;
 	}
 	public function getImages($content, $type){
+		error_reporting(E_ALL ^ E_NOTICE);
 	$allPics= "";
 	$stuff = new SimpleXMLElement($content);
 	$counter = 0;
@@ -137,9 +138,12 @@ public function __construct()
 		if($counter == 11)
 			break;
 		$result = null;
-		$tempRes = null;
+		$tempRes =array();
 		preg_match_all('/<img[^>]+>/i',$item->description, $result); 
-		preg_match('/src=("[^"]*")/i',$result[0][0], $tempRes);
+		if($result[0][0] != "" || $result[0][0] != null)
+			preg_match('/src=("[^"]*")/i',$result[0][0], $tempRes);
+		else 
+			$tempRes[1] = " ";
 		//$allPics[$counter]['pic'] = str_replace('"','',$tempRes[1]);
 		//$allPics[$counter]['title'] = $item->title[0];
 		//$allPics[$counter]['link'] = $item->link[0];
