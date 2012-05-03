@@ -25,6 +25,17 @@ class User_Model extends Model
 		$data = array('Ids'=>$gameIds, 'Rss'=>$RssOps);
 		echo json_encode($data);
 	}
- 
+ 	public function Setops()
+	{
+		Session::init();
+		$id = Session::get('id');
+		$rssOps = $_POST['RssOps'];
+		unset($_POST['rssOps']);
+		$stat = $this->db->prepare("UPDATE ops SET Rss=:rssOps WHERE User=:id");
+		$stat->execute(array(
+			':rssOps' => $rssOps,
+			':id' => $id
+		));
+	}
 	
 }

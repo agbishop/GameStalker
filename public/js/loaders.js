@@ -5,8 +5,9 @@ function loadToolbar(){
  });
  $('#xbox').live("click",function(){
  	$('#isoParent').isotope({filter:'.xbox'});
+ 	$('#isoParent').isotope('reLayout');
  });
- $('#xbox').live("click",function(){
+ $('#pc').live("click",function(){
  	$('#isoParent').isotope({filter:'.pc'});
  });
   $('#xbox').live({

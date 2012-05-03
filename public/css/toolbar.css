@@ -22,8 +22,9 @@ background: linear-gradient(top,  rgba(137,137,137,1) 0%,rgba(201,201,201,1) 35%
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#898989', endColorstr='#666666',GradientType=0 ); /* IE6-9 */
 box-shadow: 0px 4px 22px 2px white;
 border-radius: 18px;
-left:1%;
+left:10px;
 height:44px;
+z-index:2;
 			}
 #xbox{
     background-image: url('../imgs/xbox.png');

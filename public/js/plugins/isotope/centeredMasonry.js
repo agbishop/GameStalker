@@ -3,6 +3,9 @@
     this.width = this.element.width();
     
     var parentWidth = this.element.parent().width();
+    if(parentWidth >= $('.toolbar').width()){
+    	parentWidth = $('.toolbar').width();
+    }
                   // i.e. options.masonry && options.masonry.columnWidth
     var colW = this.options.masonry && this.options.masonry.columnWidth ||
                   // or use the size of the first item

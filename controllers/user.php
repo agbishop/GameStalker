@@ -13,5 +13,9 @@ class User extends Controller {
 		$this->view->error();
 		
 	}
+	function Setops()
+	{
+		$this->model->Setops();
+	}
 	}
 
