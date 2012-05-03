@@ -428,6 +428,11 @@ $("button.RssEdit").bind("click", function(e) {
 	font-family: "Technovia";
 	src: url('public/fonts/technott.ttf');
 }
+@font-face{
+	font-family: "venus";
+	src: url('public/fonts/venus rising rg.otf');
+}
+
 			body {
 				margin: 0px 8px 8px 8px;
 				background-image: url('public/imgs/renzler.gif');
@@ -441,7 +446,7 @@ $("button.RssEdit").bind("click", function(e) {
 				margin:0 auto;
 				width:auto;
 				left:-15px;
-				background: rgba(0, 0, 0, 0.7);
+				background: rgba(0, 0, 0, 0.5);
 				z-index:1;
 				top:-10px;
 				/*border: 2px solid #4E4E4E;*/

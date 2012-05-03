@@ -148,8 +148,9 @@ public function __construct()
 		//$allPics[$counter]['title'] = $item->title[0];
 		//$allPics[$counter]['link'] = $item->link[0];
 		//$counter++;
-		$this->AllRss .= "<div class=\"contentBox item rss ".$type."\" style=\"cursor:pointer;opacity:0;background-color:black;width:300px;height:150px;overflow:hidden;background-image:url('".str_replace('"','',$tempRes[1])."');background-size:contain;background-repeat:no-repeat;background-position:center;\" >". 
-		"</div>";
+		$this->AllRss .= "<div class=\"contentBox item rss ".$type."\" style=\"cursor:pointer;opacity:0;background-color:black;width:300px;height:150px;overflow:hidden;background-image:url('".str_replace('"','',$tempRes[1])."');background-size:contain;background-repeat:no-repeat;background-position:center;\" >".
+		"<a style=\"display:block;width:300px;height:150px\" target=\"_blank \"href=\"".$item->link[0]."\"> </a>".
+		"<div style=\"width: 300px;height: 50px;color: white;bottom: 0px;position: absolute;background: rgba(0, 0, 0, .7); text-align:center;font-family:venus;font-size:11px\">".$item->title[0]."</div></div>";
 		$counter++;
 	}
 	}
