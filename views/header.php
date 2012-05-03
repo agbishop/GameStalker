@@ -99,8 +99,7 @@
 							layoutMode: 'masonry',
 							resizesContainer: true,
 							masonry:{
-								columnWidth: 60,
-								gutterWidth:10,
+								columnWidth: 305
 							},
 							filter: '.main'
 						});
@@ -424,6 +423,9 @@ function RssBox(feed){
 				margin:0 auto;
 				width:auto;
 				left:5px;
+				background: rgba(0, 0, 0, 0.7);
+				z-index:1;
+				
 				/*border: 2px solid #4E4E4E;*/
 			}
 			.ui-dialog .ui-dialog-titlebar {
