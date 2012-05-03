@@ -10,32 +10,28 @@ class Forum extends Controller {
 		$this->model->pullXboxGamesList();
 	}
 	
-	function queryGame($gameID){
-		$this->model->queryGame($gameID);
+	function loadDB_Hub(){
+		$this->model->loadDB_Hub();
 	}
 	
-	function loadDB_Hub($gameName, $gameID){
-		$this->model->loadDB_Hub($gameName, $gameID);
-	}
-		
-	function createThreadTable($gameID){
-		$this->model->createThreadTable($gameID);
+	function addThread(){
+		$this->model->addThread();
 	}
 	
-	function addThread($gameID, $threadName, $category){
-		$this->model->addThread($gameID, $threadName, $category);
+	function deleteThread(){
+		$this->model->deleteThread();
 	}
 	
-	function deleteThread($gameID, $tid){
-		$this->model->deleteThread($gameID, $tid);
+	function addPost(){
+		$this->model->addPost();
 	}
 	
-	function addPost($gameID, $tid, $content, $author){
-		$this->model->addPost($gameID, $tid, $content, $author);
+	function deletePost(){
+		$this->model->deletePost();
 	}
 	
-	function deletePost($gameID, $tid, $tpid){
-		$this->model->deletePost($gameID, $tid, $tpid);
+	function viewGameThreads(){
+		$this->model->viewGameThreads();
 	}
 	
 }

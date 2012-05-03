@@ -67,6 +67,7 @@
 							});
 							
 						}					
+/////////////////////// COOKIE Stuff
 	function getxbox(){
 		$.ajax({
 			type: 'GET',
@@ -187,9 +188,14 @@
 				$.each($('.forum'),function(){
 					$('#isoparent').isotope('remove', $(this));
 				});
+				
+				var obj = {};
+        		obj.gameName = "Mass Effect";
+        		obj.gameID = '12345';
+				
 				$.ajax({
-					type: 'GET',
-					url:'forum/getForum',
+					type: 'POST',
+					url:'forum/viewGameThreads',
 					datatype:'html',
 					success:function(data){
 						console.log(data);
@@ -275,13 +281,28 @@
     	modal: true,
     	resizable: false
     });
-    $('.forum').click(function() {
+    $('.forumMain').click(function() {
         $('#loading').dialog('open');
-        $.ajax({type:'GET',
+        var obj = {};
+        obj.gameName = "Mass Effect";
+        obj.gameID = '12345';
+        
+        $.ajax({type:'POST',
         	url:'forum/loadDB_Hub',
+        	data:$.param(obj),
         	success:function(data){
          		console.log(data);
+         		$.each($('.forum'), function(){
+         			$('#isoParent').isotope('remove', $(this));
+         		});
          		$('#loading').dialog('close');
+         		$('#isoParent').isotope('insert',$(data));
+         		$("#weapons").button();
+         		$("#walkthrough").button();
+         		$("#maps").button();
+         		$("#spoilers").button();
+         		$("#misc").button();
+         		$('#isoParent').isotope({filter: '.forum'});
         }});        
         //$('#forumHub').dialog('open');
         return false;
@@ -766,8 +787,8 @@ margin: 16px 0 10px 0;
 				<p>Your profile shows you your personal profile information.</p>
 				</div>
 
-			<div  class="contentBox forum item main home"><p>Forum Test</p></div>
-
+			<div  class="contentBox forumMain item main home"><p>Forum Test</p></div>
+			
 			<div id='Pplayercard' class='psn item contentBox'>
 			<div id='Pavatar'></div>
 			<div id='trophies'>
