@@ -318,7 +318,7 @@
         return false;
     });
     //Ended Register here
-        $('.help').click(function() { //ops is settings page
+        $('.help').click(function() { 
      	$container.isotope({filter:'.helpcontent'});
     });
     
@@ -603,6 +603,22 @@ $("button.RssEdit").bind("click", function(e) {
 				font-family:Verdana, Tahoma, Geneva, sans-serif;
 				text-decoration:none;
 			}
+			
+			.doc{
+				width:200px;
+				height:100px;
+				background-color:white;
+				color:black;
+				border:2px solid black;
+				cursor:pointer;
+			}
+			.doc p{ 
+				font-size:31px;
+				text-align:center;
+				font-family:Verdana, Tahoma, Geneva, sans-serif;
+				text-decoration:none;
+				
+			}
 
 			.pEdit{
 				float:right;
@@ -770,6 +786,7 @@ margin: 16px 0 10px 0;
 			<div  class="contentBox about item main home"><p>About</p></div>
 
 			<div  class="contentBox help item home"><p>Help</p></div>
+			<div  class="contentBox main doc item home"><a href="Docs/Docspage" target="_blank" style="display:block; width:200px; height:100px;"></a><p>Docs</p></div>
 			<div  class="contentBox helpcontent item" style="color:white;font-weight:bold"><p>
 				<img style="width:625px; height:131px" src="public/imgs/Docpictures/doctoolbar.png" />
 				<p> Home: Takes you back to your homepage and saves any settings changed</p>
