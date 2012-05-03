@@ -225,19 +225,18 @@
 
      $('#AboutD').dialog({
     	autoOpen: false,
-    	width: 500,
     	modal: true,
     	resizable: false
-    });
-    $('.about').click(function() {
-        $('#AboutD').dialog('open');
-        return false;
     });
         $('.about').click(function() {
         $('#AboutD').dialog('open');
         return false;
     });
     //Ended Register here
+        $('.help').click(function() { //ops is settings page
+     	$container.isotope({filter:'.helpcontent'});
+    });
+    
      $('.ops').click(function() { //ops is settings page
      	
      	$('.filter').hide();
@@ -527,7 +526,27 @@ $("button.RssEdit").bind("click", function(e) {
 				text-decoration:none;
 				
 			}
+
 			.pEdit{
+				float:right;
+				top:-1px;
+			}
+
+			.help{
+				width:200px;
+				height:100px;
+				background-color:white;
+				color:black;
+				border:2px solid black;
+			}
+			.help p{ 
+				font-size:31px;
+				text-align:center;
+				font-family:Verdana, Tahoma, Geneva, sans-serif;
+				text-decoration:none;	
+			}
+
+			.idEdit{
 				float:right;
 				top:-1px;
 			}
@@ -628,7 +647,7 @@ margin: 16px 0 10px 0;
 		<div id="grandad">
 		<div class="toolbar">
 		<div id="banner">
-			<span id="logo" >GameStalker</span>
+			<span id="logo">GameStalker</span>
 			<div id="login" class="login toolEle"><p>Login</p></div>
 			<div class="login toolEle logout" style="display:none"><p>LogOut</p></div>
 			<div class="login toolEle ops" style="width:40px;display:none;left:1px"><div id="ops"></div></div>
@@ -637,6 +656,23 @@ margin: 16px 0 10px 0;
 			<div id="isoParent" >
 			<div  class="contentBox reg item main"><p>Register</p></div>
 			<div  class="contentBox about item main home"><p>About</p></div>
+			<div  class="contentBox help item home"><p>Help</p></div>
+			<div  class="contentBox helpcontent item" style="color:white;font-weight:bold"><p>
+				<img style="width:625px; height:131px" src="public/imgs/Docpictures/doctoolbar.png" />
+				<p> Home: Takes you back to your homepage and saves any settings changed</p>
+				<p> XBOX: Takes you to your XBOX statistics</p>
+				<p> PSN: Takes you to your Playstation Network statistics</p>
+				<p> Steam: Takes you to your Steam statistics</p>
+				<img style="width:624px; height:131px" src="public/imgs/Docpictures/doctoolbarsettings.png" />
+				<p>The Cog Takes you to the settings page</p>
+				<p>Log out returns you back to the front page after logging you out</p>
+				<img style="width:501px; height:317px" src="public/imgs/Docpictures/GameIds.png" />
+				<p>After clicking on the Settings Page, an Accordion will show. Click the different tabs to reveal the information inside.</p>
+				GameIDs will show your IDs for different platforms.
+				<img style="width:500px; height:310px" src="public/imgs/Docpictures/RSSFeeds.png" />
+				<p>This tab allows you to subscribe to different RSS Feeds. Click the boxes to highlight them blue to subscribe.</p>
+				<p>Your profile shows you your personal profile information.</p>
+				</div>
 			<div id='Pplayercard' class='psn item contentBox'>
 			<div id='Pavatar'></div>
 			<div id='trophies'>
@@ -778,7 +814,7 @@ margin: 16px 0 10px 0;
 		</div>
 		<h3><a href="#">Profile<button class="pEdit"><div style="font-size:12px">Edit</div></button></a></h3>
 		<div>
-			<p> PROFILE SHIT GOES HERE</p>
+			<p> Your profile</p>
 		</div>
 		</div>
 		</div>
