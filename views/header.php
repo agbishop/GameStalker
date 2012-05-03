@@ -813,6 +813,5 @@ margin: 16px 0 10px 0;
 		</div>
 		</div>
 		</div>
-		</div>
 	</body>
 </html>
