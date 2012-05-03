@@ -14,7 +14,23 @@ class forum_model extends model {
 		$gameList->execute(array(
 			'id' => $id
 		));
-		$gL = $gameList->fetch();		
+		$gL = $gameList->fetch();
+		//$gL = json_decode($gL['xboxGames']);
+		//print_r($gL);
+		//$data = array('xboxGames'=>$gL);
+		//echo json_encode($data);
+		//print_r($data);				
+	}
+	
+	public function queryGame($gameID){
+		// Find game if in table
+		$exists = $this->db->prepare("SELECT * FROM xbox_forums WHERE Game_ID=:Game_ID");
+		$exists->execute(array(
+			':Game_ID' => $gameID
+		));
+		
+		// Count the number of entries in the table
+		$num = $exists->rowCount();
 	}
 			
 	// Load forum (Load Central Hub, load threads, load posts)

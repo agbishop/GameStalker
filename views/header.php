@@ -66,24 +66,18 @@
 								}
 							});
 							
-						}
-						var obj = {};
-						obj.data = [];
-						obj.data[0] = "something";
-						obj.data[1] = "s";
-						JSON.stringify(obj.data);
-						console.log(JSON.stringify(obj.data));
+						}					
 	function getxbox(){
 		$.ajax({
 			type: 'GET',
 			url:'forum/pullXboxGamesList',
 			dataType:'text',
 			success: function(data){
-				//console.log(data);
+				console.log(data);
 				// Destroy cookie
 				$.cookie('gameList', null);
 				// Store list in cookie
-				$.cookie('gameList', data,{expires: 7, path:"/"});
+				$.cookie('gameList', data, {expires: 7, path:"/"});
 			}
 		});
 		
@@ -108,10 +102,17 @@
 				
 				// If cookie exists
 				var List = $.parseJSON($.cookie('gameList'));
-				// [{"Name" : "herpa", "ID" 232313}, {"Name" : "herpa", "ID" 232313}]
-				console.log(List);
-				// do game list work
 				
+				console.log(List);
+				
+				// Check to see if game exists in db
+				for(var i = 0; i < 5; i++){
+					//List[i].ID
+					
+					// If not, prepare to add and create forum entries
+				}
+				
+				// Destroy cookie
 				$.cookie('gameList', null);
 			}
 		});		

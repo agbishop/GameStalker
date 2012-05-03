@@ -10,6 +10,10 @@ class Forum extends Controller {
 		$this->model->pullXboxGamesList();
 	}
 	
+	function queryGame($gameID){
+		$this->model->queryGame($gameID);
+	}
+	
 	function loadDB_Hub($gameName, $gameID){
 		$this->model->loadDB_Hub($gameName, $gameID);
 	}
