@@ -56,6 +56,7 @@ function loadHome(){
         	$('#Settings').fadeOut(100,function(){
             $('#isoParent').fadeIn(100);
         	});
+        	$('#isoParent').isotope({filter:'.home'});
     });
     
 }
