@@ -810,6 +810,10 @@ margin: 16px 0 10px 0;
 		<h3><a href="#">Profile<button class="pEdit"><div style="font-size:12px">Edit</div></button></a></h3>
 		<div>
 			<p> Your profile</p>
+<<<<<<< HEAD
+=======
+		</div>
+>>>>>>> 54f119916f1789005e4154afb8a23f5fb0591b35
 		</div>
 		</div>
 		</div>
