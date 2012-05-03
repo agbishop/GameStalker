@@ -3,8 +3,8 @@
 	<head>
 		<title>Game Stalker</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<script type="text/javascript" src="public/js/jquery.js"></script>
-		<script type="text/javascript" src="public/js/ui/jquery-ui-1.8.17.custom.min.js"></script>
+		<script type="text/javascript" src="public/js/ui/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="public/js/ui/jquery-ui-1.8.20.custom.min.js"></script>
 		<script type="text/javascript" src="public/js/regQtip.js"></script>
 		<script type="text/javascript" src="public/js/plugins/isotope/isotope.js"></script>
 		<script type="text/javascript" src="public/js/plugins/isotope/centeredMasonry.js"></script>
@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="public/js/data.js"></script>
 		<script type="text/javascript" src="public/js/loaders.js"></script>
 		<script type="text/javascript" src="public/js/plugins/cookie/jquery.cookie.js"></script>
-		<link type="text/css" href="public/css/dark-hive/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+		<link type="text/css" href="public/css/dark-hive/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
 		<link type="text/css" href="public/css/isotope/isotope.css" rel="stylesheet" />
 		<link type="text/css" href="public/css/qTip/jquery.qtip.min.css" rel="stylesheet" />
 		<script type="text/javascript">
@@ -383,7 +383,6 @@ $('#Settings').accordion({
 	navigation: true
 });
 $("button.pEdit").button();
-$('#Addfriends').button();
 $("button.pEdit").bind("click", function(e) {
     e.stopPropagation();
     $(this).blur();
@@ -547,6 +546,9 @@ $("button.RssEdit").bind("click", function(e) {
 			#Pplayercard{
 				width:350px;
 				height:150px;
+				background-image: url('public/imgs/ps3_back.png');
+				background-repeat:no-repeat;
+				
 			}
 			#xCard{
 				width:350px;
@@ -645,9 +647,6 @@ margin: 16px 0 10px 0;
 		</div>
 		</div>
 			<div id="isoParent" >
-			<div  class="contentBox friends item home">
-				<a href="#" id="Addfriends"> <span class="ui-icon ui-icon-circle-plus"></span>button</a>
-			</div>
 			<div  class="contentBox reg item main"><p>Register</p></div>
 			<div  class="contentBox about item main home"><p>About</p></div>
 			<div  class="contentBox help item home"><p>Help</p></div>

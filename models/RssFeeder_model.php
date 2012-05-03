@@ -8,6 +8,7 @@ public function __construct()
 		
 	}
 	public function getRSS(){
+		error_reporting(E_ALL ^ E_NOTICE);
 		Session::init();
 		$id = Session::get('id');
 		$stat = $this->db->prepare("SELECT Rss FROM ops WHERE User=:id");
