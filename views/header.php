@@ -66,8 +66,22 @@
 								}
 							});
 							
-						}
+						}					
+/////////////////////// COOKIE Stuff
 	function getxbox(){
+		$.ajax({
+			type: 'GET',
+			url:'forum/pullXboxGamesList',
+			dataType:'text',
+			success: function(data){
+				console.log(data);
+				// Destroy cookie
+				$.cookie('gameList', null);
+				// Store list in cookie
+				$.cookie('gameList', data, {expires: 7, path:"/"});
+			}
+		});
+		
 		$.ajax({
 			type:'GET',
 			url:'proxyService/xbox',
@@ -86,9 +100,25 @@
 				inner += "<div class=\"xGamerScore\"> <img src=\"public/imgs/Gamerscore_icon.png\"/>" + data.GamerScore + "</div>"; 
 				inner +="</div>";
 				$('#xCard').html(inner);
+				
+				// If cookie exists
+				var List = $.parseJSON($.cookie('gameList'));
+				
+				console.log(List);
+				
+				// Check to see if game exists in db
+				for(var i = 0; i < 5; i++){
+					//List[i].ID
+					
+					// If not, prepare to add and create forum entries
+				}
+				
+				// Destroy cookie
+				$.cookie('gameList', null);
 			}
-		});
+		});		
 	}
+	
 		var $container = $('#isoParent');
 						$container.isotope({
 							itemSelector : '.item',
@@ -153,6 +183,28 @@
 					addPlats();
 				}
 			}
+///////////////////////////////////// Forum Code						
+			function getForum(){
+				$.each($('.forum'),function(){
+					$('#isoparent').isotope('remove', $(this));
+				});
+				
+				var obj = {};
+        		obj.gameName = "Mass Effect";
+        		obj.gameID = '12345';
+				
+				$.ajax({
+					type: 'POST',
+					url:'forum/viewGameThreads',
+					datatype:'html',
+					success:function(data){
+						console.log(data);
+						$('#isoparent').isotope('insert', $(data));
+						growglow();
+					}
+				});
+			}
+			
 		function validate(info){
             $.ajax({
             type:'POST',
@@ -204,6 +256,17 @@
            	});
            }
 	growglow();
+	
+	$('#loading').dialog({
+     	autoOpen: false,
+     	closeOnEscape: false,
+     	resizable: false,
+     	dialogClass: 'alert',
+     	modal: true,
+     	minWidth: 57,
+     	width: 57,
+     	height: 58
+     });
 
 // QTIP FUNCTION	
 	// Div - what is qTip attaching to
@@ -212,6 +275,39 @@
 	// Cont - text to display
 	// StyClss - style class to use (check css)
 
+    $('#forumHub').dialog({
+    	autoOpen: false,
+    	width: 800,
+    	modal: true,
+    	resizable: false
+    });
+    $('.forumMain').click(function() {
+        $('#loading').dialog('open');
+        var obj = {};
+        obj.gameName = "Mass Effect";
+        obj.gameID = '12345';
+        
+        $.ajax({type:'POST',
+        	url:'forum/loadDB_Hub',
+        	data:$.param(obj),
+        	success:function(data){
+         		console.log(data);
+         		$.each($('.forum'), function(){
+         			$('#isoParent').isotope('remove', $(this));
+         		});
+         		$('#loading').dialog('close');
+         		$('#isoParent').isotope('insert',$(data));
+         		$("#weapons").button();
+         		$("#walkthrough").button();
+         		$("#maps").button();
+         		$("#spoilers").button();
+         		$("#misc").button();
+         		$('#isoParent').isotope({filter: '.forum'});
+        }});        
+        //$('#forumHub').dialog('open');
+        return false;
+    });         
+     
      $('#AboutD').dialog({
     	autoOpen: false,
     	modal: true,
@@ -506,7 +602,6 @@ $("button.RssEdit").bind("click", function(e) {
 				text-align:center;
 				font-family:Verdana, Tahoma, Geneva, sans-serif;
 				text-decoration:none;
-				
 			}
 
 			.pEdit{
@@ -521,12 +616,33 @@ $("button.RssEdit").bind("click", function(e) {
 				color:black;
 				border:2px solid black;
 			}
+			
+			.forum{
+
+				width:200px;
+				height:100px;
+				background-color:white;
+				color:black;
+				border:2px solid black;
+			}
+
 			.help p{ 
 				font-size:31px;
 				text-align:center;
 				font-family:Verdana, Tahoma, Geneva, sans-serif;
 				text-decoration:none;	
 			}
+						
+			.forum p{ 
+				font-size:31px;
+				text-align:center;
+				font-family:Verdana, Tahoma, Geneva, sans-serif;
+				text-decoration:none;				
+			}
+			
+			.alert .ui-dialog-titlebar {
+				display:none
+			}						
 
 			.idEdit{
 				float:right;
@@ -638,6 +754,9 @@ margin: 16px 0 10px 0;
 	</head>
 	<body>
 		<div id="grandad">
+			
+			<div id="loading"><img style="width:40px;height:40px" src="./public/imgs/loader.gif"/></div>
+			
 		<div class="toolbar">
 		<div id="banner">
 			<span id="logo">GameStalker</span>
@@ -649,6 +768,7 @@ margin: 16px 0 10px 0;
 			<div id="isoParent" >
 			<div  class="contentBox reg item main"><p>Register</p></div>
 			<div  class="contentBox about item main home"><p>About</p></div>
+
 			<div  class="contentBox help item home"><p>Help</p></div>
 			<div  class="contentBox helpcontent item" style="color:white;font-weight:bold"><p>
 				<img style="width:625px; height:131px" src="public/imgs/Docpictures/doctoolbar.png" />
@@ -666,6 +786,9 @@ margin: 16px 0 10px 0;
 				<p>This tab allows you to subscribe to different RSS Feeds. Click the boxes to highlight them blue to subscribe.</p>
 				<p>Your profile shows you your personal profile information.</p>
 				</div>
+
+			<div  class="contentBox forumMain item main home"><p>Forum Test</p></div>
+			
 			<div id='Pplayercard' class='psn item contentBox'>
 			<div id='Pavatar'></div>
 			<div id='trophies'>
@@ -757,6 +880,9 @@ margin: 16px 0 10px 0;
 				to allow the Gamer to compare their performance with friends across all platforms. </p>
 				<p>GameStalker will be updated with RSS Feeds and Platform News soon!</p>
 		</div>
+		<div id = "forumHub">
+			<h1>Test</h1>
+		</div>		
 		<div id="Settings" style="display:none;color:white;width:500px;margin:0 auto; top:10px"> 
 			<h3><a href="#">Game Ids</a></h3>
 			<div>
