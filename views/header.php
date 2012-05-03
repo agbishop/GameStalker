@@ -25,7 +25,6 @@
 								url:'user/getOps',
 								dataType:'json',
 								success:function(data){
-									console.log(data);
 								}
 							});
 						function sessionCheck(){
@@ -34,7 +33,6 @@
 								url:'login/checkSession',
 								dataType:'text',
 								success:function(data){
-									console.log(data);
 									if(data == 'true'){
 										getPlats();
 									}
@@ -56,7 +54,6 @@
 								url:'proxyService/psn',
 								dataType:'json',
 								success: function(data){
-									console.log(data);
 									$('#Pavatar').empty();
 									var img = "<img style=\"width:100%;height:100%\" id=\"theImg\" src=\""+data.AvatarMedium+"\" />";
 									$('#Pavatar').prepend(img);
@@ -77,7 +74,6 @@
 			dataType:'json',
 			success: function(data){
 				$('#xCard').html('');
-				console.log(data);
 				var inner = "<div class=\"xAvatar\" ><img src=\"" + data.LargeAvatar + "\" /></div>";
 				var memType = 'silver';
 				if(data.Gold == "true"){
@@ -102,7 +98,6 @@
 						});
 			function addPlats(){
 				data = $.parseJSON($.cookie('GameStalker_ids'));
-				console.log(data);
 				if(data.PsnId != null){
 				getPSN();
 				}
@@ -115,14 +110,7 @@
 				$.each($('.rss'),function(){
 					$('#isoParent').isotope('remove', $(this));
 				});
-				$.ajax({
-				type:'GET',
-				url:'RssFeeder/getRSS',
-				dataType:'html',
-				success:function(data){
-				RssBox(data);
-				}
-			});
+				getFeeds();
 				$('#login').hide();
 				loadHome();
 				loadToolbar();
@@ -134,6 +122,7 @@
 				$('.logout').show();
 				$container.isotope({filter:'.home'});	
 			}
+			// actually this is redundnet
 			function getFeeds(){
 				$.each($('.rss'),function(){
 					$('#isoParent').isotope('remove', $(this));
@@ -143,7 +132,8 @@
 				url:'RssFeeder/getRSS',
 				dataType:'html',
 				success:function(data){
-				RssBox(data);
+				$('#isoParent').isotope('insert', $(data));
+				growglow();
 				}
 			});
 			}
@@ -169,7 +159,6 @@
             url:'login/run',
             data: $.param(info),
             success: function(data){
-            	console.log(data);
             	if(!isNaN(parseInt(data))){
             		$('#loginD').dialog("close");
             		$('#ux').hide();
@@ -251,7 +240,6 @@
     		url:'user/getOps',
     		dataType:'json',
     		success: function(data){
-    			console.log(data);
     			$('#OXbox').html(data.Ids.XboxId);
     			$('#OPsn').html(data.Ids.PsnId);
     			$('#OSteam').html(data.Ids.SteamId);
@@ -288,7 +276,6 @@
     	data.Rss.pc.rss = {};
     	data.Rss.ps3.rss = {};
     	data.Rss.xbox.rss = {};
-    	console.log($('#ignPc').is(':checked'));
     	if($('#ignPc').is(':checked'))
     		data.Rss.pc.rss.ign = true;
     	else
@@ -333,7 +320,6 @@
  		url: 'user/Setops',
  		data: $.param(tempObj),
  		success: function(data){
- 		console.log(data);	
  		}
  	});
  	getFeeds();
@@ -397,6 +383,7 @@ $('#Settings').accordion({
 	navigation: true
 });
 $("button.pEdit").button();
+$('#Addfriends').button();
 $("button.pEdit").bind("click", function(e) {
     e.stopPropagation();
     $(this).blur();
@@ -405,10 +392,6 @@ $("button.pEdit").bind("click", function(e) {
 $('#ign').buttonset();
 $('#gs').buttonset();
 $('#up').buttonset();
-function RssBox(feed){
-	$('#isoParent').isotope('insert', $(feed));
-	growglow();
-}
 $("button.RssEdit").button();
 $("button.RssEdit").bind("click", function(e) {
     e.stopPropagation();
@@ -641,6 +624,14 @@ margin: 16px 0 10px 0;
 				padding: 3px;
 				margin: 2px;
 			}
+			.friends{
+				width:150px;
+				height:400px;
+				background-color: orange;
+			}
+			#Addfriends{
+				width:80px;
+			}
 		</style>
 	</head>
 	<body>
@@ -654,6 +645,9 @@ margin: 16px 0 10px 0;
 		</div>
 		</div>
 			<div id="isoParent" >
+			<div  class="contentBox friends item home">
+				<a href="#" id="Addfriends"> <span class="ui-icon ui-icon-circle-plus"></span>button</a>
+			</div>
 			<div  class="contentBox reg item main"><p>Register</p></div>
 			<div  class="contentBox about item main home"><p>About</p></div>
 			<div  class="contentBox help item home"><p>Help</p></div>
