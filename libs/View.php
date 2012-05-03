@@ -16,5 +16,12 @@ class View {
 			require 'views/error.php';
 
 	}
+	public function Doc()
+	
+	{
+		require 'views/Doc.php';
+		
+	}
+	
 
 }
